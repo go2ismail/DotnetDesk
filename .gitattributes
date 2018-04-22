@@ -1,3 +1,5 @@
+src/src/wwwroot/* linguist-vendored
+*.cshtml linguist-language=C#
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
