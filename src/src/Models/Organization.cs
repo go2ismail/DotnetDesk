@@ -12,7 +12,7 @@ namespace src.Models
         {
             this.thumbUrl = "/images/blank-building.png";
         }
-        public int organizationId { get; set; }
+        public Guid organizationId { get; set; }
         [Display(Name = "Organization Name")]
         [Required]
         [StringLength(100)]
@@ -31,5 +31,12 @@ namespace src.Models
         public ICollection<Product> products { get; set; }
         //customers
         public ICollection<Customer> customers { get; set; }
+        //supportAgents
+        public ICollection<SupportAgent> supportAgents { get; set; }
+        //supportEngineers
+        public ICollection<SupportEngineer> supportEngineers { get; set; }
+        //organizations
+        public ICollection<Ticket> tickets { get; set; }
+        
     }
 }

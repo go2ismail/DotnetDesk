@@ -1,0 +1,30 @@
+﻿@model src.Models.Organization
+@{ 
+    Layout = null;
+}
+
+<h4>Organization</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form onsubmit="return SubmitAddEdit(this)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="organizationId" />
+            <div class="form-group">
+                <label asp-for="organizationName" class="control-label"></label>
+                <input asp-for="organizationName" class="form-control" />
+                <span asp-validation-for="organizationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -28,7 +28,8 @@ namespace src.Models
         public Enum.ProductCategory productCategory { get; set; }
 
 
-        public int organizationId { get; set; }
+        public Guid organizationId { get; set; }
         public Organization organization { get; set; }
+        
     }
 }

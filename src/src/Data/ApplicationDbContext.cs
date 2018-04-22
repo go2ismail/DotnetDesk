@@ -22,5 +22,19 @@ namespace src.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<src.Models.Organization> Organization { get; set; }
+
+        public DbSet<src.Models.Product> Product { get; set; }
+
+        public DbSet<src.Models.Customer> Customer { get; set; }
+
+        public DbSet<src.Models.Contact> Contact { get; set; }
+
+        public DbSet<src.Models.SupportAgent> SupportAgent { get; set; }
+
+        public DbSet<src.Models.SupportEngineer> SupportEngineer { get; set; }
+
+        public DbSet<src.Models.Ticket> Ticket { get; set; }
     }
 }

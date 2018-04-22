@@ -44,7 +44,7 @@ namespace src.Models
         [StringLength(100)]
         public string linkedin { get; set; }
 
-        public int organizationId { get; set; }
+        public Guid organizationId { get; set; }
         public Organization organization { get; set; }
 
         //contacts

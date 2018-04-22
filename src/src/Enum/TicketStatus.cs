@@ -8,10 +8,11 @@ namespace src.Enum
 {
     public enum TicketStatus
     {
-        Open = 1,
+        Unassigned = 1,
+        Open = 2,
         [Display(Name = "On Hold")]
-        OnHold = 2,
-        Escalated = 3,
-        Closed = 4
+        OnHold = 3,
+        Escalated = 4,
+        Closed = 5
     }
 }

@@ -46,6 +46,7 @@ namespace src.Models
 
         public int customerId { get; set; }
         public Customer customer { get; set; }
+        
 
     }
 }
