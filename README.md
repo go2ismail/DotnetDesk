@@ -27,8 +27,8 @@ Demonstration web app showing the capabilities of ASP.NET Core 2 MVC, EF (Entity
 
 
 - organization
---	ticket
----		comments
+	- ticket
+		- comments
 ----			attachments
 ---		tasks
 ----			attachments
