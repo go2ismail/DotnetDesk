@@ -29,32 +29,31 @@ Demonstration web app showing the capabilities of ASP.NET Core 2 MVC, EF (Entity
 - organization
 	- ticket
 		- comments
-----			attachments
----		tasks
-----			attachments
----		attachments
---	feeds
----		comments
----		attachments
---	knowledge base
----		attachments
----		comments
---	customers
----		attachments
----		contacts
-----			attachments
---	products
-		
---	support agents
---	support engineers
+			- attachments
+		- tasks
+			- attachments
+		- attachments
+	- feeds
+		- comments
+		- attachments
+	- knowledge base
+		- attachments
+		- comments
+	- customers
+		- attachments
+		- contacts
+			- attachments
+	- products
+	- support agents
+	- support engineers
 
 config
 -	task priority [high, highest, low, lowest, normal]
--	status task [not started, deferred, in progress, completed]
--	category [call, meeting, demo, visit]
--	status ticket [open, on hold, escalated, closed]
--	priority ticket [high, medium, low]
--	channel ticket [phone, twitter, email, facebook, web, chat, forum]
+-	task status [not started, deferred, in progress, completed]
+-	task category [call, meeting, demo, visit]
+-	ticket status [open, on hold, escalated, closed]
+-	ticket priority [high, medium, low]
+-	ticket channel [phone, twitter, email, facebook, web, chat, forum]
 -	product category [monitor, phone, desktop, laptop, printer, other hardware, windows, word, excel, powerpoint, other software]
 	
 	
