@@ -15,32 +15,28 @@ $(document).ready(function () {
             {
                 "data": "customerId",
                 "render": function (data) {
-                    var btnEdit = "<a class='btn btn-default btn-sm' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i> Edit</a>";
-                    var btnDelete = "<a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>";
+                    var btnEdit = "<a class='btn btn-default btn-xs' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
+                    var btnDelete = "<a class='btn btn-danger btn-xs' style='margin-left:2px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i></a>";
                     return btnEdit + btnDelete;
                 }
             }
         ],
         "language": {
             "emptyTable": "no data found."
-        }
+        },
+        "lengthChange": false,
     });
 });
 
 function ShowPopup(url) {
-    var formDiv = $('<div/>');
+    var modalId = 'modalDefault';
+    var modalPlaceholder = $('#' + modalId + ' .modal-dialog .modal-content');
     $.get(url)
         .done(function (response) {
-            formDiv.html(response);
-            popup = formDiv.dialog({
-                autoOpen: true,
-                resizeable: false,
-                width: 600,
-                height: 400,
-                title: 'Add or Edit Data',
-                close: function () {
-                    popup.dialog('destroy').remove();
-                }
+            modalPlaceholder.html(response);
+            popup = $('#' + modalId + '').modal({
+                keyboard: false,
+                backdrop: 'static'
             });
         });
 }
@@ -58,7 +54,7 @@ function SubmitAddEdit(form) {
             contentType: 'application/json',
             success: function (data) {
                 if (data.success) {
-                    popup.dialog('close');
+                    popup.modal('hide');
                     ShowMessage(data.message);
                     dataTable.ajax.reload();
                 }
@@ -72,10 +68,10 @@ function SubmitAddEdit(form) {
 function Delete(id) {
     swal({
         title: "Are you sure want to Delete?",
-        text: "You will not be able to restore the file!",
+        text: "You will not be able to restore the data!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
+        confirmButtonColor: "#dd4b39",
         confirmButtonText: "Yes, delete it!",
         closeOnConfirm: true
     }, function () {

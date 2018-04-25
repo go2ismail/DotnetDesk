@@ -29,11 +29,12 @@ $(document).ready(function () {
 });
 
 function ShowPopup(url) {
-    var modalPlaceholder = $('#modal .modal-dialog .modal-content');
+    var modalId = 'modalDefault';
+    var modalPlaceholder = $('#'+modalId+' .modal-dialog .modal-content');
     $.get(url)
         .done(function (response) {
             modalPlaceholder.html(response);
-            popup = $('#modal').modal({
+            popup = $('#'+modalId+'').modal({
                 keyboard: false,
                 backdrop: 'static'
             });
@@ -53,7 +54,6 @@ function SubmitAddEdit(form) {
             contentType: 'application/json',
             success: function (data) {
                 if (data.success) {
-                    
                     popup.modal('hide');
                     ShowMessage(data.message);
                     dataTable.ajax.reload();
@@ -68,10 +68,10 @@ function SubmitAddEdit(form) {
 function Delete(id) {
     swal({
         title: "Are you sure want to Delete?",
-        text: "You will not be able to restore the file!",
+        text: "You will not be able to restore the data!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
+        confirmButtonColor: "#dd4b39",
         confirmButtonText: "Yes, delete it!",
         closeOnConfirm: true
     }, function () {

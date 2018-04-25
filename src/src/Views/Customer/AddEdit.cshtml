@@ -2,59 +2,80 @@
 @{
     Layout = null;
 }
-<h4>Customer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form onsubmit="return SubmitAddEdit(this)">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="customerId" />
-            <input type="hidden" asp-for="organizationId" />
-            <div class="form-group">
-                <label asp-for="customerName" class="control-label"></label>
-                <input asp-for="customerName" class="form-control" />
-                <span asp-validation-for="customerName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="customerType" class="control-label"></label>
-                <select asp-for="customerType" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.CustomerType>()"></select>
-                <span asp-validation-for="customerType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="address" class="control-label"></label>
-                <input asp-for="address" class="form-control" />
-                <span asp-validation-for="address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="phone" class="control-label"></label>
-                <input asp-for="phone" class="form-control" />
-                <span asp-validation-for="phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="website" class="control-label"></label>
-                <input asp-for="website" class="form-control" />
-                <span asp-validation-for="website" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="linkedin" class="control-label"></label>
-                <input asp-for="linkedin" class="form-control" />
-                <span asp-validation-for="linkedin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Add / Edit Data</h4>
 </div>
+<form onsubmit="return SubmitAddEdit(this)">
+    <div class="box-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="customerId" />
+        <input type="hidden" asp-for="organizationId" />
+        <div class="form-group">
+            <label asp-for="customerName" class="control-label"></label>
+            <input asp-for="customerName" class="form-control" />
+            <span asp-validation-for="customerName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="description" class="control-label"></label>
+            <input asp-for="description" class="form-control" />
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="address" class="control-label"></label>
+            <input asp-for="address" class="form-control" />
+            <span asp-validation-for="address" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label asp-for="phone" class="control-label"></label>
+                    <input asp-for="phone" class="form-control" />
+                    <span asp-validation-for="phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label asp-for="email" class="control-label"></label>
+                    <input asp-for="email" class="form-control" />
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label asp-for="website" class="control-label"></label>
+                    <input asp-for="website" class="form-control" />
+                    <span asp-validation-for="website" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label asp-for="linkedin" class="control-label"></label>
+                    <input asp-for="linkedin" class="form-control" />
+                    <span asp-validation-for="linkedin" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="customerType" class="control-label"></label>
+            <select asp-for="customerType" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.CustomerType>()"></select>
+            <span asp-validation-for="customerType" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="box-footer">
+        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save"></i> Submit</button>
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+
+
 
 
