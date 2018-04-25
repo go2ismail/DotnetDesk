@@ -22,64 +22,10 @@ namespace src.Controllers.Api
         }
 
         // GET: api/SupportAgent
-        [HttpGet]
-        public IEnumerable<SupportAgent> GetSupportAgent()
+        [HttpGet("{organizationId}")]
+        public IActionResult GetSupportAgent([FromRoute]Guid organizationId)
         {
-            return _context.SupportAgent;
-        }
-
-        // GET: api/SupportAgent/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSupportAgent([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var supportAgent = await _context.SupportAgent.SingleOrDefaultAsync(m => m.supportAgentId == id);
-
-            if (supportAgent == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(supportAgent);
-        }
-
-        // PUT: api/SupportAgent/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSupportAgent([FromRoute] int id, [FromBody] SupportAgent supportAgent)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != supportAgent.supportAgentId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(supportAgent).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SupportAgentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Json(new { data = _context.SupportAgent.Where(x => x.organizationId.Equals(organizationId)).ToList() });
         }
 
         // POST: api/SupportAgent
@@ -91,10 +37,22 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            _context.SupportAgent.Add(supportAgent);
-            await _context.SaveChangesAsync();
+            if (supportAgent.supportAgentId == 0)
+            {
+                _context.SupportAgent.Add(supportAgent);
 
-            return CreatedAtAction("GetSupportAgent", new { id = supportAgent.supportAgentId }, supportAgent);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Add new data success." });
+            }
+            else
+            {
+                _context.Update(supportAgent);
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Edit data success." });
+            }
         }
 
         // DELETE: api/SupportAgent/5
@@ -115,7 +73,7 @@ namespace src.Controllers.Api
             _context.SupportAgent.Remove(supportAgent);
             await _context.SaveChangesAsync();
 
-            return Ok(supportAgent);
+            return Json(new { success = true, message = "Delete success." });
         }
 
         private bool SupportAgentExists(int id)

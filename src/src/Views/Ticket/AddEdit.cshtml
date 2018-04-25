@@ -1,0 +1,77 @@
+﻿@model src.Models.Ticket
+@{
+    Layout = null;
+}
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form onsubmit="return SubmitAddEdit(this)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ticketId" />
+            <input type="hidden" asp-for="organizationId" />
+            <input type="hidden" asp-for="customerId" />
+            <input type="hidden" asp-for="contactId" />
+            <div class="form-group">
+                <label asp-for="ticketName" class="control-label"></label>
+                <input asp-for="ticketName" class="form-control" />
+                <span asp-validation-for="ticketName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="phone" class="control-label"></label>
+                <input asp-for="phone" class="form-control" />
+                <span asp-validation-for="phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ticketStatus" class="control-label"></label>
+                <select asp-for="ticketStatus" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.TicketStatus>()"></select>
+                <span asp-validation-for="ticketStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="supportAgentId" class="control-label"></label>
+                <input asp-for="supportAgentId" class="form-control" />
+                <span asp-validation-for="supportAgentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="supportEngineerId" class="control-label"></label>
+                <input asp-for="supportEngineerId" class="form-control" />
+                <span asp-validation-for="supportEngineerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productId" class="control-label"></label>
+                <input asp-for="productId" class="form-control" />
+                <span asp-validation-for="productId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ticketType" class="control-label"></label>
+                <select asp-for="ticketType" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.TicketType>()"></select>
+                <span asp-validation-for="ticketType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ticketPriority" class="control-label"></label>
+                <select asp-for="ticketPriority" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.TicketPriority>()"></select>
+                <span asp-validation-for="ticketPriority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ticketChannel" class="control-label"></label>
+                <select asp-for="ticketChannel" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.TicketChannel>()"></select>
+                <span asp-validation-for="ticketChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

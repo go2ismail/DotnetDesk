@@ -22,64 +22,10 @@ namespace src.Controllers.Api
         }
 
         // GET: api/Ticket
-        [HttpGet]
-        public IEnumerable<Ticket> GetTicket()
+        [HttpGet("{organizationId}")]
+        public IActionResult GetTicket([FromRoute]Guid organizationId)
         {
-            return _context.Ticket;
-        }
-
-        // GET: api/Ticket/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTicket([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var ticket = await _context.Ticket.SingleOrDefaultAsync(m => m.ticketId == id);
-
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(ticket);
-        }
-
-        // PUT: api/Ticket/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket([FromRoute] int id, [FromBody] Ticket ticket)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != ticket.ticketId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(ticket).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TicketExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Json(new { data = _context.Ticket.Where(x => x.organizationId.Equals(organizationId)).ToList() });
         }
 
         // POST: api/Ticket
@@ -91,10 +37,22 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            _context.Ticket.Add(ticket);
-            await _context.SaveChangesAsync();
+            if (ticket.ticketId == 0)
+            {
+                _context.Ticket.Add(ticket);
 
-            return CreatedAtAction("GetTicket", new { id = ticket.ticketId }, ticket);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Add new data success." });
+            }
+            else
+            {
+                _context.Update(ticket);
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Edit data success." });
+            }
         }
 
         // DELETE: api/Ticket/5
@@ -115,7 +73,7 @@ namespace src.Controllers.Api
             _context.Ticket.Remove(ticket);
             await _context.SaveChangesAsync();
 
-            return Ok(ticket);
+            return Json(new { success = true, message = "Delete success." });
         }
 
         private bool TicketExists(int id)

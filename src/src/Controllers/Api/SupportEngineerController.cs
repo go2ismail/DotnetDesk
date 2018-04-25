@@ -22,65 +22,12 @@ namespace src.Controllers.Api
         }
 
         // GET: api/SupportEngineer
-        [HttpGet]
-        public IEnumerable<SupportEngineer> GetSupportEngineer()
+        [HttpGet("{organizationId}")]
+        public IActionResult GetSupportEngineer([FromRoute]Guid organizationId)
         {
-            return _context.SupportEngineer;
+            return Json(new { data = _context.SupportEngineer.Where(x => x.organizationId.Equals(organizationId)).ToList() });
         }
 
-        // GET: api/SupportEngineer/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSupportEngineer([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var supportEngineer = await _context.SupportEngineer.SingleOrDefaultAsync(m => m.supportEngineerId == id);
-
-            if (supportEngineer == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(supportEngineer);
-        }
-
-        // PUT: api/SupportEngineer/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSupportEngineer([FromRoute] int id, [FromBody] SupportEngineer supportEngineer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != supportEngineer.supportEngineerId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(supportEngineer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SupportEngineerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/SupportEngineer
         [HttpPost]
@@ -91,10 +38,22 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            _context.SupportEngineer.Add(supportEngineer);
-            await _context.SaveChangesAsync();
+            if (supportEngineer.supportEngineerId == 0)
+            {
+                _context.SupportEngineer.Add(supportEngineer);
 
-            return CreatedAtAction("GetSupportEngineer", new { id = supportEngineer.supportEngineerId }, supportEngineer);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Add new data success." });
+            }
+            else
+            {
+                _context.Update(supportEngineer);
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Edit data success." });
+            }
         }
 
         // DELETE: api/SupportEngineer/5
@@ -115,7 +74,7 @@ namespace src.Controllers.Api
             _context.SupportEngineer.Remove(supportEngineer);
             await _context.SaveChangesAsync();
 
-            return Ok(supportEngineer);
+            return Json(new { success = true, message = "Delete success." });
         }
 
         private bool SupportEngineerExists(int id)

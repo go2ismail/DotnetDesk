@@ -49,12 +49,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">src</a>
+                <a asp-area="" asp-controller="Config" asp-action="Organization" class="navbar-brand">src</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Product" asp-action="Index" asp-route-org="@org">Product</a></li>
-                    
+                    <li><a asp-area="" asp-controller="SupportAgent" asp-action="Index" asp-route-org="@org">Support Agent</a></li>
+                    <li><a asp-area="" asp-controller="SupportEngineer" asp-action="Index" asp-route-org="@org">Support Engineer</a></li>
+                    <li><a asp-area="" asp-controller="Customer" asp-action="Index" asp-route-org="@org">Customer</a></li>
+                    <li><a asp-area="" asp-controller="Ticket" asp-action="Index" asp-route-org="@org">Ticket</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

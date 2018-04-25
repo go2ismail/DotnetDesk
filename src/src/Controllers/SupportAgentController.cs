@@ -8,11 +8,12 @@ using src.Models;
 
 namespace src.Controllers
 {
-    public class ProductController : Controller
+    public class SupportAgentController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        public SupportAgentController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -32,13 +33,13 @@ namespace src.Controllers
         {
             if (id == 0)
             {
-                Product product = new Product();
-                product.organizationId = org;
-                return View(product);
+                SupportAgent supportAgent = new SupportAgent();
+                supportAgent.organizationId = org;
+                return View(supportAgent);
             }
             else
             {
-                return View(_context.Product.Where(x => x.productId.Equals(id)).FirstOrDefault());
+                return View(_context.SupportAgent.Where(x => x.supportAgentId.Equals(id)).FirstOrDefault());
             }
 
         }

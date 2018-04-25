@@ -1,5 +1,5 @@
 ﻿var popup, dataTable;
-var entity = 'Product';
+var entity = 'Customer';
 var apiurl = '/api/' + entity;
 
 $(document).ready(function () {
@@ -11,9 +11,9 @@ $(document).ready(function () {
             "datatype": 'json'
         },
         "columns": [
-            { "data": "productName" },
+            { "data": "customerName" },
             {
-                "data": "productId",
+                "data": "customerId",
                 "render": function (data) {
                     var btnEdit = "<a class='btn btn-default btn-sm' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i> Edit</a>";
                     var btnDelete = "<a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>";

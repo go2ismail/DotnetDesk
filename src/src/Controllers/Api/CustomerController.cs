@@ -22,65 +22,13 @@ namespace src.Controllers.Api
         }
 
         // GET: api/Customer
-        [HttpGet]
-        public IEnumerable<Customer> GetCustomer()
+        [HttpGet("{organizationId}")]
+        public IActionResult GetCustomer([FromRoute]Guid organizationId)
         {
-            return _context.Customer;
+            return Json(new { data = _context.Customer.Where(x => x.organizationId.Equals(organizationId)).ToList() });
         }
 
-        // GET: api/Customer/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomer([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.customerId == id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(customer);
-        }
-
-        // PUT: api/Customer/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] Customer customer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != customer.customerId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/Customer
         [HttpPost]
@@ -91,10 +39,22 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            _context.Customer.Add(customer);
-            await _context.SaveChangesAsync();
+            if (customer.customerId == 0)
+            {
+                _context.Customer.Add(customer);
 
-            return CreatedAtAction("GetCustomer", new { id = customer.customerId }, customer);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Add new data success." });
+            }
+            else
+            {
+                _context.Update(customer);
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Edit data success." });
+            }
         }
 
         // DELETE: api/Customer/5
@@ -115,7 +75,7 @@ namespace src.Controllers.Api
             _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
 
-            return Ok(customer);
+            return Json(new { success = true, message = "Delete success." });
         }
 
         private bool CustomerExists(int id)
