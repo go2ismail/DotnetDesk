@@ -2,14 +2,17 @@
 @{
     Layout = null;
 }
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form onsubmit="return SubmitAddEdit(this)">
+
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Add / Edit Data</h3>
+    </div>
+    <form onsubmit="return SubmitAddEdit(this)">
+        <div class="box-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="productId" />
-            <input type="hidden" asp-for="organizationId"/>
+            <input type="hidden" asp-for="organizationId" />
             <div class="form-group">
                 <label asp-for="productName" class="control-label"></label>
                 <input asp-for="productName" class="form-control" />
@@ -17,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control"/>
+                <input asp-for="description" class="form-control" />
                 <span asp-validation-for="description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,11 +28,16 @@
                 <select asp-for="productCategory" class="form-control" asp-items="Html.GetEnumSelectList<src.Enum.ProductCategory>()"></select>
                 <span asp-validation-for="productCategory" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        </div>
+    </form>
 </div>
+
+
+
 
 
