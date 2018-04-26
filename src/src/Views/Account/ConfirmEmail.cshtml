@@ -1,10 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Confirm email";
+    Layout = "~/Views/Shared/_LayoutAdminlteBlank.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div>
-    <p>
-        Thank you for confirming your email.
-    </p>
+<div class="register-box-body bg-blue">
+    <h2>Confirm Email</h2>
+    <h3>Thank you for confirming your email.</h3>
+    <h3>
+        <a href="@Url.Action("Index", "Config")" class="small-box-footer"><i class="fa fa-gear"></i> Let's Get Started</a>
+    </h3>
 </div>
+

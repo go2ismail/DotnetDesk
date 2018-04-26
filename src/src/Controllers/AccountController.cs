@@ -43,6 +43,8 @@ namespace src.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -217,6 +219,13 @@ namespace src.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        public IActionResult RegisterSuccess()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -244,11 +253,11 @@ namespace src.Controllers
                     //email should be confirmed then can logged in
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction(nameof(RegisterSuccess));
                 }
                 AddErrors(result);
             }
-
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -453,9 +462,11 @@ namespace src.Controllers
 
         private void AddErrors(IdentityResult result)
         {
+            ViewData["Error"] = "";
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
+                ViewData["Error"] += error.Description;
             }
         }
 
@@ -467,7 +478,7 @@ namespace src.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return View(MVC.Pages.ConfigIndex.FullUrl);
             }
         }
 

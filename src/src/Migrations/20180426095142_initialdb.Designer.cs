@@ -12,7 +12,7 @@ using System;
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180426081249_initialdb")]
+    [Migration("20180426095142_initialdb")]
     partial class initialdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,6 +144,11 @@ namespace src.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("IsSuperAdmin");
 
                     b.Property<bool>("LockoutEnabled");
 

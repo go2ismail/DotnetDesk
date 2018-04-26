@@ -144,6 +144,11 @@ namespace src.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("IsSuperAdmin");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
