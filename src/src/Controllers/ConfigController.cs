@@ -53,5 +53,11 @@ namespace src.Controllers
             }
 
         }
+
+        public async Task<IActionResult> UserProfile()
+        {
+            ApplicationUser appUser = await _userManager.GetUserAsync(User);
+            return View(appUser);
+        }
     }
 }
