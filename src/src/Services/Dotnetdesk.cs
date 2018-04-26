@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using src.Data;
 using src.Models;
 using System;
 using System.Collections.Generic;
@@ -87,6 +88,18 @@ namespace src.Services
                 throw;
             }
             return result;
+        }
+
+        public Task CreateDefaultOrganization(string applicationUserId,
+            ApplicationDbContext context)
+        {
+            Organization org = new Organization();
+            org.organizationName = "Default HQ";
+            org.description = "Default Organization / Default Branch or HQ";
+            org.organizationOwnerId = applicationUserId;
+            context.Organization.Add(org);
+            context.SaveChanges();
+            return Task.CompletedTask;
         }
     }
 }

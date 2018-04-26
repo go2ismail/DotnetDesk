@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using src.Data;
 using src.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,9 @@ namespace src.Services
             string smtpHost,
             int smtpPort,
             bool smtpSSL);
+
+        Task CreateDefaultOrganization(string applicationUserId,
+            ApplicationDbContext context);
 
     }
 }

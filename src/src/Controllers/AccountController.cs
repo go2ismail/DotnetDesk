@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using src.Data;
 using src.Models;
 using src.Models.AccountViewModels;
 using src.Services;
@@ -25,19 +26,22 @@ namespace src.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IDotnetdesk _dotnetdesk;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
-            IDotnetdesk dotnetdesk)
+            IDotnetdesk dotnetdesk,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _dotnetdesk = dotnetdesk;
+            _context = context;
         }
 
         [TempData]
@@ -240,11 +244,14 @@ namespace src.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    //create default organization
+                    _dotnetdesk.CreateDefaultOrganization(user.Id, _context).Wait();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
