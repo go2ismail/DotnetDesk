@@ -10,7 +10,7 @@ Demonstration web app showing the capabilities of ASP.NET Core 2 MVC, EF (Entity
 - Adminlte template
 - datatables.net
 - Dependency Injection
-- Email Handling
+- Email Handling (SendGrid and SMTP)
 - Custom 404/500 error handling
 - file upload
 
