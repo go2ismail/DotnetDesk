@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using src.Data;
 using src.Models;
 using System;
@@ -28,6 +30,8 @@ namespace src.Services
 
         Task CreateDefaultOrganization(string applicationUserId,
             ApplicationDbContext context);
+
+        Task<string> UploadFile(List<IFormFile> files, IHostingEnvironment env);
 
     }
 }
