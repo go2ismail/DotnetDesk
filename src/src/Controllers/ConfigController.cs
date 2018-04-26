@@ -8,7 +8,7 @@ using src.Models;
 
 namespace src.Controllers
 {
-    public class ConfigController : Controller
+    public class ConfigController : BaseDotnetDeskController
     {
         private readonly ApplicationDbContext _context;
 
@@ -19,6 +19,10 @@ namespace src.Controllers
 
         public IActionResult Index()
         {
+            if (!this.IsHaveEnoughAccessRight())
+            {
+                return NotFound();
+            }
             return View(_context.Organization.ToList());
         }
 

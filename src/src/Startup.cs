@@ -36,6 +36,9 @@ namespace src
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            // Add DI for Dotnetdesk
+            services.AddTransient<IDotnetdesk, Dotnetdesk>();
+
             services.AddMvc();
         }
 
@@ -61,7 +64,7 @@ namespace src
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Config}/{action=Index}/{id?}");
+                    template: "{controller="+MVC.Pages.ConfigIndex.Controller+"}/{action="+MVC.Pages.ConfigIndex.Action+"}/{id?}");
             });
         }
     }

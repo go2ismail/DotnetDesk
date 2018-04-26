@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace src.Services
+{
+    public interface IDotnetdesk
+    {
+        Task SendEmailAsync(string email, string subject, string message);
+
+    }
+}
