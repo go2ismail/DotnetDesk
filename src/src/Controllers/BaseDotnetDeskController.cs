@@ -12,7 +12,7 @@ namespace src.Controllers
         {
             //todo: cek controller
             //todo: cek user
-            return false;
+            return true;
         }
     }
 }
