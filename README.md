@@ -9,6 +9,9 @@ Demonstration web app showing the capabilities of ASP.NET Core 2 MVC, EF (Entity
 - ASP.NET Core 2 Web API
 - Adminlte template
 - datatables.net
+- Dependency Injection
+- Email Handling
+- Custom 404/500 error handling
 
 # Business Process
 - Ticket
