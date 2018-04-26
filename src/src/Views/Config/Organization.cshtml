@@ -1,27 +1,52 @@
 ﻿
 @{
     ViewData["Title"] = "Organization";
-    Layout = "_LayoutConfig";
+    Layout = "_LayoutAdminlteNoMenu";
 }
 
-<h2>Organization</h2>
-<div class="row">
-    <div class="col-md-10">
-        <a class="btn btn-success" style="margin-bottom:10px" onclick="ShowPopup('@Url.Action("AddEditOrganization","Config")')"><i class="fa fa-plus"></i> Add New Organization</a>
+<!-- Content Header (Page header) -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table id="gridOrganization" name="gridOrganization" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-8">Organization</th>
+                                        <th class="col-md-4"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="btn btn-success" style="margin-bottom:10px" onclick="ShowPopup('@Url.Action("AddEditOrganization","Config")')"><i class="fa fa-plus"></i> Add New Organization</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->
+<!--modal placeholder-->
+<div class="modal modal-primary fade" id="modalDefault">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-10">
-        <table id="gridOrganization" name="gridOrganization" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th class="col-md-8">Organization</th>
-                    <th class="col-md-4"></th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+
 
 
 @section Scripts{

@@ -17,6 +17,11 @@ namespace src.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            return View(_context.Organization.ToList());
+        }
+
         public IActionResult Organization()
         {
             return View();

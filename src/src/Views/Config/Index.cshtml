@@ -1,0 +1,33 @@
+﻿@model IEnumerable<src.Models.Organization>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdminlteIndex.cshtml";
+}
+<div class="content">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-lg-4">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h4>@item.organizationName</h4>
+
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="@Url.Action("Index", "Customer", new { org = item.organizationId })" class="small-box-footer">Enter <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="@Url.Action("Organization", "Config", new { org = item.organizationId })" class="small-box-footer">Configure <i class="fa fa-gear"></i></a>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+

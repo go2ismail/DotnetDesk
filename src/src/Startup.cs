@@ -61,7 +61,7 @@ namespace src
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Adminlte}/{action=Blank}/{id?}");
+                    template: "{controller=Config}/{action=Index}/{id?}");
             });
         }
     }
