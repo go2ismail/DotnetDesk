@@ -12,6 +12,7 @@ Demonstration web app showing the capabilities of ASP.NET Core 2 MVC, EF (Entity
 - Dependency Injection
 - Email Handling
 - Custom 404/500 error handling
+- file upload
 
 # Business Process
 - Ticket
