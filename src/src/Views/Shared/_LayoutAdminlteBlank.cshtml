@@ -1,4 +1,11 @@
 ﻿<!DOCTYPE html>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var org = ViewData["org"];
+    ApplicationUser appUser = await UserManager.GetUserAsync(User);
+    var fullName = appUser != null ? appUser.FullName : "Untitled";
+}
 <html>
 <head>
     <meta charset="utf-8">

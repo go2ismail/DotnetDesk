@@ -14,6 +14,10 @@ namespace src.Models
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
+        [StringLength(250)]
+        [Display(Name = "Profile Picture")]
+        public string ProfilePictureUrl { get; set; } = "#";
+
         public bool IsSuperAdmin { get; set; } = false;
     }
 }

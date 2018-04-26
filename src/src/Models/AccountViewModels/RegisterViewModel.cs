@@ -25,6 +25,7 @@ namespace src.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Full Name")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string FullName { get; set; }
     }
