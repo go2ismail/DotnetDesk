@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<src.Models.Organization>
-
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdminlteWallpaper.cshtml";
+    ApplicationUser appUser = await UserManager.GetUserAsync(User);
 }
 <div class="content">
     <div class="row">
@@ -19,8 +20,18 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="@Url.Action("Index", "Customer", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
-                    <a href="@Url.Action("Organization", "Config")" class="small-box-footer">Configure <i class="fa fa-gear"></i></a>
+
+                    @if (appUser.IsSuperAdmin)
+                    {
+                        <a href="@Url.Action("Index", "Customer", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
+                        <a href="@Url.Action("Organization", "Config")" class="small-box-footer">Configure <i class="fa fa-gear"></i></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Ticket", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
+
+                    }
+
                 </div>
             </div>
 

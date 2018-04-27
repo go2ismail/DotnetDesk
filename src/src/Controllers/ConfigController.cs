@@ -31,9 +31,31 @@ namespace src.Controllers
             }
 
             ApplicationUser appUser = await _userManager.GetUserAsync(User);
-            var orgList = _context.Organization.Where(x => x.organizationOwnerId.Equals(appUser.Id)).ToList();
+            if (appUser.IsSuperAdmin)
+            {
+                var orgList = _context.Organization.Where(x => x.organizationOwnerId.Equals(appUser.Id)).ToList();
 
-            return View(orgList);
+                return View(orgList);
+            }
+            else if (appUser.IsSupportAgent)
+            {
+                var supportAgent = _context.SupportAgent.Where(x => x.applicationUserId.Equals(appUser.Id)).FirstOrDefault();
+                var orgList = _context.Organization.Where(x => x.organizationId.Equals(supportAgent.organizationId)).ToList();
+
+                return View(orgList);
+            }
+            else if (appUser.IsSupportEngineer)
+            {
+                return View();
+            }
+            else if (appUser.IsCustomer)
+            {
+                return View();
+            }
+            else {
+                return View();
+            }
+            
         }
 
         public async Task<IActionResult> Organization()

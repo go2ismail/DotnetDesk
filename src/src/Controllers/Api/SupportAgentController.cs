@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using src.Data;
 using src.Models;
+using src.Services;
 
 namespace src.Controllers.Api
 {
@@ -15,10 +18,19 @@ namespace src.Controllers.Api
     public class SupportAgentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDotnetdesk _dotnetdesk;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public SupportAgentController(ApplicationDbContext context)
+        public SupportAgentController(ApplicationDbContext context,
+            IDotnetdesk dotnetdesk,
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _context = context;
+            _dotnetdesk = dotnetdesk;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: api/SupportAgent
@@ -39,9 +51,38 @@ namespace src.Controllers.Api
 
             if (supportAgent.supportAgentId == 0)
             {
-                _context.SupportAgent.Add(supportAgent);
+                try
+                {
+                    var user = new ApplicationUser { UserName = supportAgent.Email, Email = supportAgent.Email, FullName = supportAgent.supportAgentName };
+                    
+                    user.IsSupportAgent = true;
+                    var randomPassword = new Random().Next(0, 999999);
+                    var result = await _userManager.CreateAsync(user, randomPassword.ToString());
+                    if (result.Succeeded)
+                    {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
 
-                await _context.SaveChangesAsync();
+                        await _emailSender.SendEmailAsync(supportAgent.Email, "Confirm your email and Registration",
+                        $"Your email has been registered. With username:'{supportAgent.Email}'  and temporary  password:'{randomPassword.ToString()}' .Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a>");
+
+                        supportAgent.applicationUser = user;
+                        Organization org = _context.Organization.Where(x => x.organizationId.Equals(supportAgent.organizationId)).FirstOrDefault();
+                        supportAgent.organization = org;
+
+                        _context.SupportAgent.Add(supportAgent);
+
+                        await _context.SaveChangesAsync();
+                    }
+                    
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+             
 
                 return Json(new { success = true, message = "Add new data success." });
             }
