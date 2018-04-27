@@ -6,6 +6,7 @@
     ApplicationUser appUser = await UserManager.GetUserAsync(User);
     var fullName = appUser != null ? appUser.FullName : "Untitled";
     var profilePicture = appUser != null ? appUser.ProfilePictureUrl : "#";
+    var wallpaperPicture = appUser != null ? appUser.WallpaperPictureUrl : "#";
 }
 <html>
 <head>
@@ -51,6 +52,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="~/adminlte/css/skins/_all-skins.min.css">
+    <!--blueimp file upload-->
+    <link rel="stylesheet" href="~/lib/jQuery-File-Upload-9.21.0/css/jquery.fileupload.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -79,7 +82,29 @@
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-picture-o"></i>
+                                <span class="hidden-xs"><b>Wallpaper</b></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-footer text-center">
+                                    <span class="btn btn-success fileinput-button">
+                                        <i class="fa fa-camera bg-green"></i>
+                                        <span>Select file ...</span>
+                                        <!-- The file input field used as target for the file upload widget -->
+                                        <input id="fileupload" type="file" name="files" multiple="">
+                                    </span>
+                                </li>
+                                <li class="user-footer">
+                                    <div id="progress" class="progress">
+                                        <div class="progress-bar progress-bar-success"></div>
+                                    </div>
+                                </li>
 
+                            </ul>
+                        </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         @Html.Partial("_ProfileSignout")
 
@@ -108,7 +133,7 @@
         </aside>
         <!-- =============================================== -->
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="background-image: url(/images/wallpaper1.jpg); background-size: cover">
+        <div class="content-wrapper" style="background-image: url(@wallpaperPicture); background-size: cover">
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
@@ -166,11 +191,33 @@
     <script src="~/lib/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="~/adminlte/js/adminlte.min.js"></script>
-
+    <!--blueimp file upload-->
+    <script src="~/lib/jQuery-File-Upload-9.21.0/js/jquery.fileupload.js"></script>
     <script>
         $(document).ready(function () {
             $('.sidebar-menu').tree()
         })
+    </script>
+    <script>
+        $(function () {
+
+            var url = '/api/UploadFile/Wallpaper';
+            $('#fileupload').fileupload({
+                url: url,
+                dataType: 'json',
+                done: function (e, data) {
+                    $(".content-wrapper").attr("style", "background-image: url(" + '../uploads/' + data.result +"); background-size: cover; min-height: 514px");
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                }
+            }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });
     </script>
 </body>
 </html>

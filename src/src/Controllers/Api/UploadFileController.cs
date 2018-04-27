@@ -44,5 +44,18 @@ namespace src.Controllers.Api
             _context.SaveChanges();
             return Ok(fileName);
         }
+
+        [HttpPost("Wallpaper")]
+        [RequestSizeLimit(5000000)]
+        public async Task<IActionResult> PostUploadFileWallpaper(List<IFormFile> files)
+        {
+            var fileName = await _dotnetdesk.UploadFile(files, _env);
+            //try to update the user wallpaper pict
+            ApplicationUser appUser = await _userManager.GetUserAsync(User);
+            appUser.WallpaperPictureUrl = "/uploads/" + fileName;
+            _context.Update(appUser);
+            _context.SaveChanges();
+            return Ok(fileName);
+        }
     }
 }
