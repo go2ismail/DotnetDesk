@@ -23,5 +23,8 @@ namespace src.Models
         public string WallpaperPictureUrl { get; set; } = "/images/wallpaper1.jpg";
 
         public bool IsSuperAdmin { get; set; } = false;
+        public bool IsCustomer { get; set; } = false;
+        public bool IsSupportAgent { get; set; } = false;
+        public bool IsSupportEngineer { get; set; } = false;
     }
 }

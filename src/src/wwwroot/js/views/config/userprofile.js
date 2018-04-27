@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿var popup;
+
+$(function () {
 
     var url = '/api/UploadFile';
     $('#fileupload').fileupload({
@@ -17,4 +19,69 @@
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
 });
+
+function ShowPopup(url) {
+    var modalId = 'modalDefault';
+    var modalPlaceholder = $('#' + modalId + ' .modal-dialog .modal-content');
+    $.get(url)
+        .done(function (response) {
+            modalPlaceholder.html(response);
+            popup = $('#' + modalId + '').modal({
+                keyboard: false,
+                backdrop: 'static'
+            });
+        });
+}
+
+function ChangePassword(form) {
+    $.validator.unobtrusive.parse(form);
+    if ($(form).valid()) {
+        var data = $(form).serializeJSON();
+        data = JSON.stringify(data);
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            url: '/manage/changepassword',
+            data: data,
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.success) {
+                    popup.modal('hide');
+                    ShowMessage(data.message);
+                }
+            }
+        });
+
+    }
+    return false;
+}
+
+function ChangePersonalProfile(form) {
+    $.validator.unobtrusive.parse(form);
+    if ($(form).valid()) {
+        var data = $(form).serializeJSON();
+        data = JSON.stringify(data);
+        $.ajax({
+            type: 'POST',
+            url: '/api/config/changepersonalprofile',
+            data: data,
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.success) {
+                    popup.modal('hide');
+                    ShowMessage(data.message);
+                    $('.profile-fullName').text(data.appUser.fullName);
+                }
+            }
+        });
+
+    }
+    return false;
+}
+
+function ShowMessage(msg) {
+    toastr.success(msg);
+}

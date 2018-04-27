@@ -13,7 +13,7 @@ $(document).ready(function () {
             {
                 "data": "organizationId",
                 "render": function (data) {
-                    var view = "<a class='btn btn-primary btn-xs' href='/Customer/Index/?org=" + data + "'><i class='fa fa-gear'></i> View</a>";
+                    var view = "<a class='btn btn-primary btn-xs' href='/Customer?org=" + data + "'><i class='fa fa-gear'></i> View</a>";
                     var edit = "<a class='btn btn-default btn-xs' style='margin-left:5px' onclick=ShowPopup('/Config/AddEditOrganization/" + data + "')><i class='fa fa-pencil'></i> Edit</a>";
                     var del = "<a class='btn btn-danger btn-xs' style='margin-left:5px' onclick=Delete('" + data + "')><i class='fa fa-trash'></i> Delete</a>";
                     return view + edit + del;

@@ -36,5 +36,7 @@ namespace src.Data
         public DbSet<src.Models.SupportEngineer> SupportEngineer { get; set; }
 
         public DbSet<src.Models.Ticket> Ticket { get; set; }
+
+        public DbSet<src.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }

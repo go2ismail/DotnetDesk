@@ -147,7 +147,13 @@ namespace src.Migrations
                     b.Property<string>("FullName")
                         .HasMaxLength(100);
 
+                    b.Property<bool>("IsCustomer");
+
                     b.Property<bool>("IsSuperAdmin");
+
+                    b.Property<bool>("IsSupportAgent");
+
+                    b.Property<bool>("IsSupportEngineer");
 
                     b.Property<bool>("LockoutEnabled");
 

@@ -245,6 +245,8 @@ namespace src.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
+                //user registered using registration screen is SuperAdmin
+                user.IsSuperAdmin = true;
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

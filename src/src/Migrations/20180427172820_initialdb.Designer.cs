@@ -12,7 +12,7 @@ using System;
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180427141734_initialdb")]
+    [Migration("20180427172820_initialdb")]
     partial class initialdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,7 +148,13 @@ namespace src.Migrations
                     b.Property<string>("FullName")
                         .HasMaxLength(100);
 
+                    b.Property<bool>("IsCustomer");
+
                     b.Property<bool>("IsSuperAdmin");
+
+                    b.Property<bool>("IsSupportAgent");
+
+                    b.Property<bool>("IsSupportEngineer");
 
                     b.Property<bool>("LockoutEnabled");
 

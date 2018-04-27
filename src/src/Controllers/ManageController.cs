@@ -150,8 +150,7 @@ namespace src.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -174,8 +173,8 @@ namespace src.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
-
-            return RedirectToAction(nameof(ChangePassword));
+            
+            return Json(new { success = true, message = StatusMessage });
         }
 
         [HttpGet]
