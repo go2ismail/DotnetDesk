@@ -36,16 +36,21 @@ namespace src.Controllers
             return View(orgList);
         }
 
-        public IActionResult Organization()
+        public async Task<IActionResult> Organization()
         {
-            return View();
+            ApplicationUser appUser = await _userManager.GetUserAsync(User);
+            return View(appUser);
         }
 
-        public IActionResult AddEditOrganization(Guid id)
+        public async Task<IActionResult> AddEditOrganization(Guid id)
         {
+            
             if (Guid.Empty == id)
             {
-                return View(new Organization());
+                ApplicationUser appUser = await _userManager.GetUserAsync(User);
+                Organization org = new Organization();
+                org.organizationOwnerId = appUser.Id;
+                return View(org);
             }
             else
             {

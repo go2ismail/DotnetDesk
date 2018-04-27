@@ -11,16 +11,16 @@
 
     <li class="dropdown user user-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="~/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+            <img src="../@appUser.ProfilePictureUrl" class="profile-picture user-image" alt="User Image">
             <span class="hidden-xs">@appUser.FullName</span>
         </a>
         <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-                <img src="~/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../@appUser.ProfilePictureUrl" class="profile-picture img-circle" alt="User Image">
                 <p>
                     @appUser.FullName
-                    <small>Aktive member.</small>
+                    <small>Active member.</small>
                 </p>
             </li>
             

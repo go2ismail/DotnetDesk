@@ -41,9 +41,11 @@ namespace src.Migrations
                     PasswordHash = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    ProfilePictureUrl = table.Column<string>(maxLength: 250, nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    WallpaperPictureUrl = table.Column<string>(maxLength: 250, nullable: true)
                 },
                 constraints: table =>
                 {

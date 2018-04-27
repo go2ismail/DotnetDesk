@@ -16,7 +16,11 @@ namespace src.Models
 
         [StringLength(250)]
         [Display(Name = "Profile Picture")]
-        public string ProfilePictureUrl { get; set; } = "#";
+        public string ProfilePictureUrl { get; set; } = "/images/empty-profile.png";
+
+        [StringLength(250)]
+        [Display(Name = "Wallpaper Picture")]
+        public string WallpaperPictureUrl { get; set; } = "/images/wallpaper1.jpg";
 
         public bool IsSuperAdmin { get; set; } = false;
     }

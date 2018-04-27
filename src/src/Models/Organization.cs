@@ -11,6 +11,7 @@ namespace src.Models
         public Organization()
         {
             this.thumbUrl = "/images/blank-building.png";
+            
         }
         public Guid organizationId { get; set; }
         [Display(Name = "Organization Name")]

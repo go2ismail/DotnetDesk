@@ -14,6 +14,7 @@
     <div class="box-body">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="organizationId" />
+        <input type="hidden" asp-for="organizationOwnerId" />
         <div class="form-group">
             <label asp-for="organizationName" class="control-label"></label>
             <input asp-for="organizationName" class="form-control" />

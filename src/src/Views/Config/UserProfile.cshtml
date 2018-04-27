@@ -18,10 +18,10 @@
                     <p class="text-muted text-center">Active Member</p>
 
                     <ul class="list-group list-group-unbordered">
-                        <li class="list-group-item">
+                        <li class="list-group-item text-center">
                             <span class="btn btn-success fileinput-button">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span>Select files...</span>
+                                <i class="fa fa-camera bg-green"></i>
+                                <span>Select file ...</span>
                                 <!-- The file input field used as target for the file upload widget -->
                                 <input id="fileupload" type="file" name="files" multiple="">
                             </span>
@@ -32,17 +32,9 @@
                                 <div class="progress-bar progress-bar-success"></div>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                            <b>Followers</b> <a class="pull-right">1,322</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Following</b> <a class="pull-right">543</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Friends</b> <a class="pull-right">13,287</a>
-                        </li>
+
                     </ul>
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    <a href="@src.MVC.Pages.ConfigOrganization.FullUrl" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Organizations</b></a>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -207,29 +199,6 @@
 
 @section Scripts{
 
-    <script>
-        /*jslint unparam: true */
-        /*global window, $ */
-        $(function () {
-            'use strict';
-            // Change this to the location of your server-side upload handler:
-            var url = '/api/UploadFile';
-            $('#fileupload').fileupload({
-                url: url,
-                dataType: 'json',
-                done: function (e, data) {
-                    $('#profilePicture').attr('src', '../uploads/' + data.result);
-                },
-                progressall: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .progress-bar').css(
-                        'width',
-                        progress + '%'
-                    );
-                }
-            }).prop('disabled', !$.support.fileInput)
-                .parent().addClass($.support.fileInput ? undefined : 'disabled');
-        });
-    </script>
+    <script src="~/js/views/config/userprofile.js"></script>
 
 }

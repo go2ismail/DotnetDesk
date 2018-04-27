@@ -1,9 +1,10 @@
 ﻿var popup, dataTable;
 
 $(document).ready(function () {
+    var applicationUserId = $('#Id').val();
     dataTable = $('#gridOrganization').DataTable({
         "ajax": {
-            "url": "/api/organization",
+            "url": "/api/organization/" + applicationUserId,
             "type": "GET",
             "datatype": "json"
         },

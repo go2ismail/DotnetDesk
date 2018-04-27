@@ -22,10 +22,10 @@ namespace src.Controllers.Api
         }
 
         // GET: api/Organization
-        [HttpGet]
-        public IActionResult GetOrganization()
+        [HttpGet("{applicationUserId}")]
+        public IActionResult GetOrganization([FromRoute]string applicationUserId)
         {
-            return Json(new { data = _context.Organization.ToList() });
+            return Json(new { data = _context.Organization.Where(x => x.organizationOwnerId.Equals(applicationUserId)).OrderByDescending(x => x.CreateAt).ToList() });
         }
 
 

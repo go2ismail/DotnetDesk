@@ -175,6 +175,9 @@ namespace src.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("WallpaperPictureUrl")
+                        .HasMaxLength(250);
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")

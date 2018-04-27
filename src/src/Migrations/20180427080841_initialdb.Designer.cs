@@ -12,7 +12,7 @@ using System;
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180426134748_initialdb")]
+    [Migration("20180427080841_initialdb")]
     partial class initialdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,12 +166,18 @@ namespace src.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasMaxLength(250);
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("WallpaperPictureUrl")
+                        .HasMaxLength(250);
 
                     b.HasKey("Id");
 
