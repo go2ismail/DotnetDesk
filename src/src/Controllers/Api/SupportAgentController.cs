@@ -73,26 +73,41 @@ namespace src.Controllers.Api
                         _context.SupportAgent.Add(supportAgent);
 
                         await _context.SaveChangesAsync();
+
+                        return Json(new { success = true, message = "Add new data success." });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "UserManager CreateAsync Fail." });
                     }
                     
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
-                    throw;
+                    return Json(new { success = false, message = ex.Message });
                 }
 
              
 
-                return Json(new { success = true, message = "Add new data success." });
+               
             }
             else
             {
-                _context.Update(supportAgent);
+                try
+                {
+                    _context.Update(supportAgent);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Edit data success." });
+                    return Json(new { success = true, message = "Edit data success." });
+                }
+                catch (Exception ex)
+                {
+
+                    return Json(new { success = false, message = ex.Message });
+                }
+
             }
         }
 
@@ -105,16 +120,31 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var supportAgent = await _context.SupportAgent.SingleOrDefaultAsync(m => m.supportAgentId == id);
-            if (supportAgent == null)
+            try
             {
-                return NotFound();
+                var supportAgent = await _context.SupportAgent.SingleOrDefaultAsync(m => m.supportAgentId == id);
+                if (supportAgent == null)
+                {
+                    return NotFound();
+                }
+
+                string applicationUserId = supportAgent.applicationUserId;
+
+                _context.SupportAgent.Remove(supportAgent);
+                await _context.SaveChangesAsync();
+
+                ApplicationUser appUser = await _userManager.FindByIdAsync(applicationUserId);
+                await _userManager.DeleteAsync(appUser);
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
             }
 
-            _context.SupportAgent.Remove(supportAgent);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Delete success." });
+           
         }
 
         private bool SupportAgentExists(int id)

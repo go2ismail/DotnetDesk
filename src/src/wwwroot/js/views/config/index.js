@@ -56,6 +56,8 @@ function SubmitAddEdit(form) {
                     popup.modal('hide');
                     ShowMessage(data.message);
                     dataTable.ajax.reload();
+                } else {
+                    ShowMessageError(data.message);
                 }
             }
         });
@@ -81,6 +83,8 @@ function Delete(id) {
                 if (data.success) {
                     ShowMessage(data.message);
                     dataTable.ajax.reload();
+                } else {
+                    ShowMessageError(data.message);
                 }
             }
         });
@@ -90,7 +94,5 @@ function Delete(id) {
 }
 
 
-function ShowMessage(msg) {
-    toastr.success(msg);
-}
+
 

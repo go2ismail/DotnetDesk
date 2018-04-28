@@ -51,6 +51,8 @@ function ChangePassword(form) {
                 if (data.success) {
                     popup.modal('hide');
                     ShowMessage(data.message);
+                } else {
+                    ShowMessageError(data.message);
                 }
             }
         });
@@ -74,14 +76,12 @@ function ChangePersonalProfile(form) {
                     popup.modal('hide');
                     ShowMessage(data.message);
                     $('.profile-fullName').text(data.appUser.fullName);
+                } else {
+                    ShowMessageError(data.message);
                 }
             }
         });
 
     }
     return false;
-}
-
-function ShowMessage(msg) {
-    toastr.success(msg);
 }

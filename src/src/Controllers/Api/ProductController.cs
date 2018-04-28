@@ -39,22 +39,32 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (product.productId == 0)
+            try
             {
-                _context.Product.Add(product);
+                if (product.productId == 0)
+                {
+                    _context.Product.Add(product);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Add new data success." });
+                    return Json(new { success = true, message = "Add new data success." });
+                }
+                else
+                {
+                    _context.Update(product);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Edit data success." });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _context.Update(product);
 
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true, message = "Edit data success." });
+                return Json(new { success = false, message = ex.Message });
             }
+
+           
         }
 
         // DELETE: api/Product/5
@@ -66,16 +76,26 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var product = await _context.Product.SingleOrDefaultAsync(m => m.productId == id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _context.Product.SingleOrDefaultAsync(m => m.productId == id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Product.Remove(product);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
             }
 
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Delete success." });
+           
         }
 
         private bool ProductExists(int id)

@@ -27,13 +27,24 @@ namespace src.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
-            ApplicationUser appUser = _context.ApplicationUser.Where(x => x.Id.Equals(applicationUser.Id)).FirstOrDefault();
-            appUser.FullName = applicationUser.FullName;
-            _context.Update(appUser);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                ApplicationUser appUser = _context.ApplicationUser.Where(x => x.Id.Equals(applicationUser.Id)).FirstOrDefault();
+                appUser.FullName = applicationUser.FullName;
+                _context.Update(appUser);
 
-            return Json(new { success = true, message = "Edit data success.", appUser });
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Edit data success.", appUser });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
+
+
         }
     }
 }

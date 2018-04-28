@@ -38,23 +38,33 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (organization.organizationId == Guid.Empty)
+            try
             {
-                organization.organizationId = Guid.NewGuid();
-                _context.Organization.Add(organization);
+                if (organization.organizationId == Guid.Empty)
+                {
+                    organization.organizationId = Guid.NewGuid();
+                    _context.Organization.Add(organization);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Add new data success." });
+                    return Json(new { success = true, message = "Add new data success." });
+                }
+                else
+                {
+                    _context.Update(organization);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Edit data success." });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _context.Update(organization);
 
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true, message = "Edit data success." });
+                return Json(new { success = false, message = ex.Message });
             }
+
+           
         }
 
         // DELETE: api/Organization/5
@@ -66,16 +76,26 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var organization = await _context.Organization.SingleOrDefaultAsync(m => m.organizationId == id);
-            if (organization == null)
+            try
             {
-                return NotFound();
+                var organization = await _context.Organization.SingleOrDefaultAsync(m => m.organizationId == id);
+                if (organization == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Organization.Remove(organization);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
             }
 
-            _context.Organization.Remove(organization);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Delete success." });
+           
         }
 
         private bool OrganizationExists(Guid id)

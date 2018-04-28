@@ -46,7 +46,10 @@ namespace src.Controllers
             }
             else if (appUser.IsSupportEngineer)
             {
-                return View();
+                var supportEngineer = _context.SupportEngineer.Where(x => x.applicationUserId.Equals(appUser.Id)).FirstOrDefault();
+                var orgList = _context.Organization.Where(x => x.organizationId.Equals(supportEngineer.organizationId)).ToList();
+
+                return View(orgList);
             }
             else if (appUser.IsCustomer)
             {

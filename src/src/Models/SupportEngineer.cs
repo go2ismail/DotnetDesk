@@ -11,8 +11,13 @@ namespace src.Models
         public int supportEngineerId { get; set; }
         [Required]
         [StringLength(100)]
-        [Display(Name = "Description")]
+        [Display(Name = "Full Name")]
         public string supportEngineerName { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         public string applicationUserId { get; set; }
         public ApplicationUser applicationUser { get; set; }

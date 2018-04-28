@@ -37,22 +37,32 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (ticket.ticketId == 0)
+            try
             {
-                _context.Ticket.Add(ticket);
+                if (ticket.ticketId == 0)
+                {
+                    _context.Ticket.Add(ticket);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Add new data success." });
+                    return Json(new { success = true, message = "Add new data success." });
+                }
+                else
+                {
+                    _context.Update(ticket);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Edit data success." });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _context.Update(ticket);
 
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true, message = "Edit data success." });
+                return Json(new { success = false, message = ex.Message });
             }
+
+           
         }
 
         // DELETE: api/Ticket/5
@@ -64,16 +74,26 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            var ticket = await _context.Ticket.SingleOrDefaultAsync(m => m.ticketId == id);
-            if (ticket == null)
+            try
             {
-                return NotFound();
+                var ticket = await _context.Ticket.SingleOrDefaultAsync(m => m.ticketId == id);
+                if (ticket == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Ticket.Remove(ticket);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
             }
 
-            _context.Ticket.Remove(ticket);
-            await _context.SaveChangesAsync();
-
-            return Json(new { success = true, message = "Delete success." });
+          
         }
 
         private bool TicketExists(int id)

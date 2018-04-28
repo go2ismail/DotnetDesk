@@ -96,6 +96,7 @@ namespace src.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ViewData["error"] = "Invalid login attempt";
                     return View(model);
                 }
             }
@@ -365,7 +366,7 @@ namespace src.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return Redirect(MVC.Pages.ConfigIndex.FullUrl);
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
