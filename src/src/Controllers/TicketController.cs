@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using src.Data;
 using src.Models;
 
@@ -49,11 +50,40 @@ namespace src.Controllers
             {
                 Ticket ticket = new Ticket();
                 ticket.organizationId = org;
+
+                IList<Product> products = _context.Product.Where(x => x.organizationId.Equals(org)).ToList();
+                ViewBag.productId = new SelectList(products, "productId", "productName");
+
+                IList<SupportAgent> agents = _context.SupportAgent.Where(x => x.organizationId.Equals(org)).ToList();
+                ViewBag.supportAgentId = new SelectList(agents, "supportAgentId", "supportAgentName");
+
+                IList<SupportEngineer> engineers = _context.SupportEngineer.Where(x => x.organizationId.Equals(org)).ToList();
+                ViewBag.supportEngineerId = new SelectList(engineers, "supportEngineerId", "supportEngineerName");
+
+                IList<Contact> contacts = _context.Contact
+                    .Where(x => x.customer.organizationId.Equals(org)).ToList();
+                ViewBag.contactId = new SelectList(contacts, "contactId", "contactName");
+
                 return View(ticket);
             }
             else
             {
-                return View(_context.Ticket.Where(x => x.ticketId.Equals(id)).FirstOrDefault());
+                Ticket ticket = _context.Ticket.Where(x => x.ticketId.Equals(id)).FirstOrDefault();
+
+                IList<Product> products = _context.Product.Where(x => x.organizationId.Equals(ticket.organizationId)).ToList();
+                ViewBag.productId = new SelectList(products, "productId", "productName", ticket.productId);
+
+                IList<SupportAgent> agents = _context.SupportAgent.Where(x => x.organizationId.Equals(ticket.organizationId)).ToList();
+                ViewBag.supportAgentId = new SelectList(agents, "supportAgentId", "supportAgentName", ticket.supportAgentId);
+
+                IList<SupportEngineer> engineers = _context.SupportEngineer.Where(x => x.organizationId.Equals(ticket.organizationId)).ToList();
+                ViewBag.supportEngineerId = new SelectList(engineers, "supportEngineerId", "supportEngineerName", ticket.supportEngineerId);
+
+                IList<Contact> contacts = _context.Contact
+                    .Where(x => x.customer.organizationId.Equals(ticket.organizationId)).ToList();
+                ViewBag.contactId = new SelectList(contacts, "contactId", "contactName", ticket.contactId);
+
+                return View(ticket);
             }
 
         }
@@ -69,11 +99,20 @@ namespace src.Controllers
                 ticket.customerId = cust;
                 ticket.organizationId = customer.organizationId;
                 ticket.contactId = contact.contactId;
+
+                IList<Product> products = _context.Product.Where(x => x.organizationId.Equals(customer.organizationId)).ToList();
+                ViewBag.productId = new SelectList(products, "productId", "productName");
+
                 return View(ticket);
             }
             else
             {
-                return View(_context.Ticket.Where(x => x.ticketId.Equals(id)).FirstOrDefault());
+                Ticket ticket = _context.Ticket.Where(x => x.ticketId.Equals(id)).FirstOrDefault();
+
+                IList<Product> products = _context.Product.Where(x => x.organizationId.Equals(ticket.organizationId)).ToList();
+                ViewBag.productId = new SelectList(products, "productId", "productName", ticket.productId);
+
+                return View(ticket);
             }
 
         }

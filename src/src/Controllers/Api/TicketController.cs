@@ -50,7 +50,9 @@ namespace src.Controllers.Api
             {
                 if (ticket.ticketId == Guid.Empty)
                 {
+                    Contact contact = _context.Contact.Where(x => x.contactId.Equals(ticket.contactId)).FirstOrDefault();
                     ticket.ticketId = Guid.NewGuid();
+                    ticket.customerId = contact.customerId;
                     _context.Ticket.Add(ticket);
 
                     await _context.SaveChangesAsync();

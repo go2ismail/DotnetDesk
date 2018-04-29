@@ -29,7 +29,16 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label asp-for="email" class="control-label"></label>
-                    <input asp-for="email" class="form-control" />
+                    @if (!String.IsNullOrEmpty(Model.email))
+                    {
+                        <input asp-for="email" class="form-control" readonly="readonly" />
+
+                    }
+                    else
+                    {
+                        <input asp-for="email" class="form-control" />
+
+                    }
                     <span asp-validation-for="email" class="text-danger"></span>
                 </div>
             </div>

@@ -15,7 +15,6 @@
         <input type="hidden" asp-for="ticketId" />
         <input type="hidden" asp-for="organizationId" />
         <input type="hidden" asp-for="customerId" />
-        <input type="hidden" asp-for="contactId" />
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
@@ -27,7 +26,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label asp-for="productId" class="control-label"></label>
-                    <input asp-for="productId" class="form-control" />
+                    <select asp-for="productId" class="form-control" asp-items="@ViewBag.productId"></select>
                     <span asp-validation-for="productId" class="text-danger"></span>
                 </div>
             </div>
@@ -38,18 +37,25 @@
             <span asp-validation-for="description" class="text-danger"></span>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label asp-for="email" class="control-label"></label>
                     <input asp-for="email" class="form-control" />
                     <span asp-validation-for="email" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label asp-for="phone" class="control-label"></label>
                     <input asp-for="phone" class="form-control" />
                     <span asp-validation-for="phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label asp-for="contactId" class="control-label"></label>
+                    <select asp-for="contactId" class="form-control" asp-items="@ViewBag.contactId"></select>
+                    <span asp-validation-for="contactId" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -64,14 +70,14 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label asp-for="supportAgentId" class="control-label"></label>
-                    <input asp-for="supportAgentId" class="form-control" />
+                    <select asp-for="supportAgentId" class="form-control" asp-items="@ViewBag.supportAgentId"></select>
                     <span asp-validation-for="supportAgentId" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label asp-for="supportEngineerId" class="control-label"></label>
-                    <input asp-for="supportEngineerId" class="form-control" />
+                    <select asp-for="supportEngineerId" class="form-control" asp-items="@ViewBag.supportEngineerId"></select>
                     <span asp-validation-for="supportEngineerId" class="text-danger"></span>
                 </div>
             </div>
