@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace src.Controllers.Api
 {
     [Produces("application/json")]
     [Route("api/Organization")]
+    [Authorize]
     public class OrganizationController : Controller
     {
         private readonly ApplicationDbContext _context;

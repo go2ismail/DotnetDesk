@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,7 @@ namespace src.Controllers.Api
 {
     [Produces("application/json")]
     [Route("api/UploadFile")]
+    [Authorize]
     public class UploadFileController : Controller
     {
         private readonly IDotnetdesk _dotnetdesk;

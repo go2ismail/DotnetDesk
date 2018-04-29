@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace src.Controllers.Api
 {
     [Produces("application/json")]
     [Route("api/Contact")]
+    [Authorize]
     public class ContactController : Controller
     {
         private readonly ApplicationDbContext _context;

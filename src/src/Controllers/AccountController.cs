@@ -489,7 +489,7 @@ namespace src.Controllers
             }
             else
             {
-                return View(MVC.Pages.ConfigIndex.FullUrl);
+                return Redirect(MVC.Pages.ConfigIndex.FullUrl);
             }
         }
 

@@ -45,6 +45,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     </environment>
 
+    <!-- Ladda style -->
+    <link rel="stylesheet" href="~/lib/ladda/ladda-themeless.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
@@ -177,6 +179,10 @@
 
     @RenderSection("Scripts", required: false)
 
+    <!-- Ladda -->
+    <script src="~/lib/ladda/spin.min.js"></script>
+    <script src="~/lib/ladda/ladda.min.js"></script>
+    <script src="~/lib/ladda/ladda.jquery.min.js"></script>
     <!-- SlimScroll -->
     <script src="~/lib/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
@@ -198,7 +204,7 @@
                 url: url,
                 dataType: 'json',
                 done: function (e, data) {
-                    $(".content-wrapper").attr("style", "background-image: url(" + '../uploads/' + data.result +"); background-size: cover; min-height: 514px");
+                    $(".content-wrapper").attr("style", "background-image: url(" + '../uploads/' + data.result + "); background-size: cover; min-height: 514px");
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
