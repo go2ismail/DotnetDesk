@@ -53,7 +53,11 @@ namespace src.Controllers
             }
             else if (appUser.IsCustomer)
             {
-                return View();
+                var contact = _context.Contact.Where(x => x.applicationUserId.Equals(appUser.Id)).FirstOrDefault();
+                var customer = _context.Customer.Where(x => x.customerId.Equals(contact.customerId)).FirstOrDefault();
+                var orgList = _context.Organization.Where(x => x.organizationId.Equals(customer.organizationId)).ToList();
+
+                return View(orgList);
             }
             else {
                 return View();

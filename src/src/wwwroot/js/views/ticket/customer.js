@@ -1,24 +1,23 @@
 ﻿var popup, dataTable;
-var entity = 'Customer';
-var apiurl = '/api/' + entity;
+var entity = 'Ticket';
+var apiurl = '/api/' + entity + '/Customer';
 
 $(document).ready(function () {
-    var organizationId = $('#organizationId').val();
+    var customerId = $('#customerId').val();
     dataTable = $('#grid').DataTable({
         "ajax": {
-            "url": apiurl + '/' + organizationId,
+            "url": apiurl + '/' + customerId,
             "type": 'GET',
             "datatype": 'json'
         },
         "columns": [
-            { "data": "customerName" },
+            { "data": "ticketName" },
             {
-                "data": "customerId",
+                "data": "ticketId",
                 "render": function (data) {
-                    var btnDetail = "<a href='/Customer/detail?customerId="+data+"' class='btn btn-default btn-xs'><i class='fa fa-list'></i></a>";
-                    var btnEdit = "<a class='btn btn-default btn-xs' style='margin-left:2px' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
-                    var btnDelete = "<a class='btn btn-danger btn-xs' style='margin-left:2px' onclick=Delete('" + data + "')><i class='fa fa-trash'></i></a>";
-                    return btnDetail + btnEdit + btnDelete;
+                    var btnEdit = "<a class='btn btn-default btn-xs' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
+                    var btnDelete = "<a class='btn btn-danger btn-xs' style='margin-left:5px' onclick=Delete('" + data + "')><i class='fa fa-trash'></i></a>";
+                    return btnEdit + btnDelete;
                 }
             }
         ],
@@ -71,7 +70,7 @@ function SubmitAddEdit(form) {
 function Delete(id) {
     swal({
         title: "Are you sure want to Delete?",
-        text: "You will not be able to restore the data!",
+        text: "You will not be able to restore the file!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#dd4b39",
@@ -94,6 +93,7 @@ function Delete(id) {
 
 
 }
+
 
 
 

@@ -1,4 +1,5 @@
-﻿function ShowMessage(msg) {
+﻿
+function ShowMessage(msg) {
     toastr.success(msg);
 }
 

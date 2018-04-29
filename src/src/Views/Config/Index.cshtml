@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<src.Models.Organization>
 @inject UserManager<ApplicationUser> UserManager
+@inject src.Data.ApplicationDbContext Context
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdminlteWallpaper.cshtml";
     ApplicationUser appUser = await UserManager.GetUserAsync(User);
+    Guid cust = Guid.Empty;
+    if (appUser.IsCustomer)
+    {
+        Contact contact = Context.Contact.Where(x => x.applicationUserId.Equals(appUser.Id)).FirstOrDefault();
+        Customer customer = (contact != null) ? Context.Customer.Where(x => x.customerId.Equals(contact.customerId)).FirstOrDefault() : null;
+        cust = (customer != null) ? customer.customerId : Guid.Empty;
+    }
 }
 <div class="content">
     <div class="row">
@@ -28,7 +36,7 @@
                     }
                     else
                     {
-                        <a href="@Url.Action("Index", "Ticket", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
+                        <a href="@Url.Action("Customer", "Ticket", new { cust = cust })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
 
                     }
 

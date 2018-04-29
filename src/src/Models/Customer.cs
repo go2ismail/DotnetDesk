@@ -13,7 +13,7 @@ namespace src.Models
             this.thumbUrl = "/images/no-image-available.png";
             this.customerType = Enum.CustomerType.Internal;
         }
-        public int customerId { get; set; }
+        public Guid customerId { get; set; }
         [Display(Name = "Customer Name")]
         [StringLength(100)]
         [Required]

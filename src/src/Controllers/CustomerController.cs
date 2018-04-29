@@ -28,9 +28,9 @@ namespace src.Controllers
             return View(organization);
         }
 
-        public IActionResult AddEdit(Guid org, int id = 0)
+        public IActionResult AddEdit(Guid org, Guid id)
         {
-            if (id == 0)
+            if (id == Guid.Empty)
             {
                 Customer customer = new Customer();
                 customer.organizationId = org;
@@ -42,5 +42,18 @@ namespace src.Controllers
             }
 
         }
+
+        public IActionResult Detail(Guid customerId)
+        {
+            if (customerId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            Customer customer = _context.Customer.Where(x => x.customerId.Equals(customerId)).FirstOrDefault();
+            ViewData["org"] = customer.organizationId;
+            return View(customer);
+        }
+        
     }
 }

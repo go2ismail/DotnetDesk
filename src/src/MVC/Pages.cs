@@ -55,5 +55,12 @@ namespace src.MVC
             public const string Controller = "Ticket";
             public const string Action = "Index";
         }
+
+        public static class TicketCustomer
+        {
+            public const string FullUrl = "/Ticket/Customer";
+            public const string Controller = "Ticket";
+            public const string Action = "Customer";
+        }
     }
 }

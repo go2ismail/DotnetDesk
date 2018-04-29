@@ -1,24 +1,24 @@
 ﻿var popup, dataTable;
-var entity = 'Customer';
+var entity = 'Contact';
 var apiurl = '/api/' + entity;
 
 $(document).ready(function () {
-    var organizationId = $('#organizationId').val();
+    var customerId = $('#customerId').val();
     dataTable = $('#grid').DataTable({
         "ajax": {
-            "url": apiurl + '/' + organizationId,
+            "url": apiurl + '/' + customerId,
             "type": 'GET',
             "datatype": 'json'
         },
         "columns": [
-            { "data": "customerName" },
+            { "data": "contactName" },
             {
-                "data": "customerId",
+                "data": "contactId",
                 "render": function (data) {
-                    var btnDetail = "<a href='/Customer/detail?customerId="+data+"' class='btn btn-default btn-xs'><i class='fa fa-list'></i></a>";
-                    var btnEdit = "<a class='btn btn-default btn-xs' style='margin-left:2px' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
+                  
+                    var btnEdit = "<a class='btn btn-default btn-xs' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
                     var btnDelete = "<a class='btn btn-danger btn-xs' style='margin-left:2px' onclick=Delete('" + data + "')><i class='fa fa-trash'></i></a>";
-                    return btnDetail + btnEdit + btnDelete;
+                    return btnEdit + btnDelete;
                 }
             }
         ],

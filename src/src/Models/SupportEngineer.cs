@@ -8,7 +8,7 @@ namespace src.Models
 {
     public class SupportEngineer
     {
-        public int supportEngineerId { get; set; }
+        public Guid supportEngineerId { get; set; }
         [Required]
         [StringLength(100)]
         [Display(Name = "Full Name")]

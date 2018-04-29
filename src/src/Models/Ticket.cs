@@ -15,7 +15,7 @@ namespace src.Models
             this.ticketPriority = Enum.TicketPriority.Low;
         }
 
-        public int ticketId { get; set; }
+        public Guid ticketId { get; set; }
         [Required]
         [StringLength(100)]
         [Display(Name = "Ticket Title")]
@@ -26,10 +26,10 @@ namespace src.Models
         public string description { get; set; }
 
         [Display(Name = "Customer ID")]
-        public int customerId { get; set; }
+        public Guid customerId { get; set; }
 
         [Display(Name = "Contact ID")]
-        public int contactId { get; set; }
+        public Guid contactId { get; set; }
 
         [StringLength(100)]
         [Display(Name = "Email")]
@@ -42,13 +42,13 @@ namespace src.Models
         public Enum.TicketStatus ticketStatus { get; set; }
 
         [Display(Name = "Ticket Owner ID")]
-        public int supportAgentId { get; set; }
+        public Guid supportAgentId { get; set; }
 
         [Display(Name = "Support Enggineer ID")]
-        public int supportEngineerId { get; set; }
+        public Guid supportEngineerId { get; set; }
 
         [Display(Name = "Product ID")]
-        public int productId { get; set; }
+        public Guid productId { get; set; }
 
         [Display(Name = "Ticket Type")]
         public Enum.TicketType ticketType { get; set; }

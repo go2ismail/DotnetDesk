@@ -61,6 +61,7 @@ namespace src.Migrations
                 {
                     organizationId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
                     description = table.Column<string>(maxLength: 200, nullable: true),
                     organizationName = table.Column<string>(maxLength: 100, nullable: false),
                     organizationOwnerId = table.Column<string>(nullable: true),
@@ -181,9 +182,9 @@ namespace src.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    customerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    customerId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
                     address = table.Column<string>(maxLength: 100, nullable: true),
                     customerName = table.Column<string>(maxLength: 100, nullable: false),
                     customerType = table.Column<int>(nullable: false),
@@ -210,9 +211,9 @@ namespace src.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    productId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    productId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
                     description = table.Column<string>(maxLength: 200, nullable: true),
                     organizationId = table.Column<Guid>(nullable: false),
                     productCategory = table.Column<int>(nullable: false),
@@ -234,9 +235,10 @@ namespace src.Migrations
                 name: "SupportAgent",
                 columns: table => new
                 {
-                    supportAgentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    supportAgentId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 100, nullable: false),
                     applicationUserId = table.Column<string>(nullable: true),
                     organizationId = table.Column<Guid>(nullable: false),
                     supportAgentName = table.Column<string>(maxLength: 100, nullable: false)
@@ -262,8 +264,8 @@ namespace src.Migrations
                 name: "SupportEngineer",
                 columns: table => new
                 {
-                    supportEngineerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    supportEngineerId = table.Column<Guid>(nullable: false),
+                    Email = table.Column<string>(maxLength: 100, nullable: false),
                     applicationUserId = table.Column<string>(nullable: true),
                     organizationId = table.Column<Guid>(nullable: false),
                     supportEngineerName = table.Column<string>(maxLength: 100, nullable: false)
@@ -289,18 +291,18 @@ namespace src.Migrations
                 name: "Ticket",
                 columns: table => new
                 {
-                    ticketId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ticketId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
-                    contactId = table.Column<int>(nullable: false),
-                    customerId = table.Column<int>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
+                    contactId = table.Column<Guid>(nullable: false),
+                    customerId = table.Column<Guid>(nullable: false),
                     description = table.Column<string>(maxLength: 200, nullable: false),
                     email = table.Column<string>(maxLength: 100, nullable: true),
                     organizationId = table.Column<Guid>(nullable: false),
                     phone = table.Column<string>(maxLength: 20, nullable: true),
-                    productId = table.Column<int>(nullable: false),
-                    supportAgentId = table.Column<int>(nullable: false),
-                    supportEngineerId = table.Column<int>(nullable: false),
+                    productId = table.Column<Guid>(nullable: false),
+                    supportAgentId = table.Column<Guid>(nullable: false),
+                    supportEngineerId = table.Column<Guid>(nullable: false),
                     ticketChannel = table.Column<int>(nullable: false),
                     ticketName = table.Column<string>(maxLength: 100, nullable: false),
                     ticketPriority = table.Column<int>(nullable: false),
@@ -322,14 +324,14 @@ namespace src.Migrations
                 name: "Contact",
                 columns: table => new
                 {
-                    contactId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    contactId = table.Column<Guid>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(nullable: true),
+                    applicationUserId = table.Column<string>(nullable: true),
                     contactName = table.Column<string>(maxLength: 100, nullable: false),
-                    customerId = table.Column<int>(nullable: false),
+                    customerId = table.Column<Guid>(nullable: false),
                     description = table.Column<string>(maxLength: 200, nullable: true),
-                    email = table.Column<string>(maxLength: 100, nullable: true),
-                    lastName = table.Column<string>(maxLength: 100, nullable: true),
+                    email = table.Column<string>(maxLength: 100, nullable: false),
                     linkedin = table.Column<string>(maxLength: 100, nullable: true),
                     phone = table.Column<string>(maxLength: 20, nullable: true),
                     secondaryEmail = table.Column<string>(maxLength: 100, nullable: true),
@@ -339,6 +341,12 @@ namespace src.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contact", x => x.contactId);
+                    table.ForeignKey(
+                        name: "FK_Contact_AspNetUsers_applicationUserId",
+                        column: x => x.applicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Contact_Customer_customerId",
                         column: x => x.customerId,
@@ -385,6 +393,11 @@ namespace src.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contact_applicationUserId",
+                table: "Contact",
+                column: "applicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contact_customerId",

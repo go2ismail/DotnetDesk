@@ -41,8 +41,9 @@ namespace src.Controllers.Api
 
             try
             {
-                if (product.productId == 0)
+                if (product.productId == Guid.Empty)
                 {
+                    product.productId = Guid.NewGuid();
                     _context.Product.Add(product);
 
                     await _context.SaveChangesAsync();
@@ -69,7 +70,7 @@ namespace src.Controllers.Api
 
         // DELETE: api/Product/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace src.Controllers.Api
            
         }
 
-        private bool ProductExists(int id)
+        private bool ProductExists(Guid id)
         {
             return _context.Product.Any(e => e.productId == id);
         }

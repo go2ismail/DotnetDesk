@@ -1,9 +1,15 @@
 ﻿@model src.Models.ApplicationUser
-
+@inject src.Data.ApplicationDbContext Context
 @{
     ViewData["Title"] = "UserProfile";
     Layout = "~/Views/Shared/_LayoutAdminlteNoMenu.cshtml";
-
+    var customerId = Guid.Empty;
+    if (Model.IsCustomer)
+    {
+        var contact = Context.Contact.Where(x => x.applicationUserId.Equals(Model.Id)).FirstOrDefault();
+        var customer = (contact != null) ? Context.Customer.Where(x => x.customerId.Equals(contact.customerId)).FirstOrDefault() : null;
+        customerId = (customer != null) ? customer.customerId : Guid.Empty;
+    }
 }
 
 <!-- Main content -->
@@ -34,7 +40,17 @@
                         </li>
 
                     </ul>
-                    <a href="@src.MVC.Pages.ConfigOrganization.FullUrl" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Organizations</b></a>
+                    @if (Model.IsSuperAdmin)
+                    {
+                        <a href="@src.MVC.Pages.ConfigOrganization.FullUrl" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Organizations</b></a>
+
+                    }
+                    else if (Model.IsCustomer)
+                    {
+
+                        <a href="@src.MVC.Pages.TicketCustomer.FullUrl?cust=@customerId" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Tickets</b></a>
+                    }
+
                 </div>
                 <!-- /.box-body -->
             </div>

@@ -42,8 +42,9 @@ namespace src.Controllers.Api
             try
             {
 
-                if (customer.customerId == 0)
+                if (customer.customerId == Guid.Empty)
                 {
+                    customer.customerId = Guid.NewGuid();
                     _context.Customer.Add(customer);
 
                     await _context.SaveChangesAsync();
@@ -69,7 +70,7 @@ namespace src.Controllers.Api
 
         // DELETE: api/Customer/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer([FromRoute] int id)
+        public async Task<IActionResult> DeleteCustomer([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace src.Controllers.Api
            
         }
 
-        private bool CustomerExists(int id)
+        private bool CustomerExists(Guid id)
         {
             return _context.Customer.Any(e => e.customerId == id);
         }

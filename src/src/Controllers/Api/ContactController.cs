@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using src.Data;
 using src.Models;
+using src.Services;
 
 namespace src.Controllers.Api
 {
@@ -15,71 +18,26 @@ namespace src.Controllers.Api
     public class ContactController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDotnetdesk _dotnetdesk;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public ContactController(ApplicationDbContext context)
+        public ContactController(ApplicationDbContext context,
+            IDotnetdesk dotnetdesk,
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _context = context;
+            _dotnetdesk = dotnetdesk;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: api/Contact
-        [HttpGet]
-        public IEnumerable<Contact> GetContact()
+        [HttpGet("{customerId}")]
+        public IActionResult GetContact([FromRoute]Guid customerId)
         {
-            return _context.Contact;
-        }
-
-        // GET: api/Contact/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetContact([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var contact = await _context.Contact.SingleOrDefaultAsync(m => m.contactId == id);
-
-            if (contact == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(contact);
-        }
-
-        // PUT: api/Contact/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact([FromRoute] int id, [FromBody] Contact contact)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != contact.contactId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(contact).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContactExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Json(new { data = _context.Contact.Where(x => x.customerId.Equals(customerId)).ToList() });
         }
 
         // POST: api/Contact
@@ -91,34 +49,91 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            _context.Contact.Add(contact);
-            await _context.SaveChangesAsync();
+            try
+            {
 
-            return CreatedAtAction("GetContact", new { id = contact.contactId }, contact);
+                if (contact.contactId == Guid.Empty)
+                {
+                    var user = new ApplicationUser { UserName = contact.email, Email = contact.email, FullName = contact.contactName };
+
+                    user.IsCustomer = true;
+                    var randomPassword = new Random().Next(0, 999999);
+                    var result = await _userManager.CreateAsync(user, randomPassword.ToString());
+
+                    if (result.Succeeded)
+                    {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+
+                        await _emailSender.SendEmailAsync(contact.email, "Confirm your email and Registration",
+                        $"Your email has been registered. With username:'{contact.email}'  and temporary  password:'{randomPassword.ToString()}' .Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a>");
+
+                        contact.applicationUser = user;
+
+                        contact.contactId = Guid.NewGuid();
+                        _context.Contact.Add(contact);
+
+                        await _context.SaveChangesAsync();
+
+                        return Json(new { success = true, message = "Add new data success." });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "UserManager CreateAsync Fail." });
+                    }
+
+
+                }
+                else
+                {
+                    _context.Update(contact);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Edit data success." });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
+
         }
 
         // DELETE: api/Contact/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact([FromRoute] int id)
+        public async Task<IActionResult> DeleteContact([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var contact = await _context.Contact.SingleOrDefaultAsync(m => m.contactId == id);
-            if (contact == null)
+            try
             {
-                return NotFound();
+                var contact = await _context.Contact.SingleOrDefaultAsync(m => m.contactId == id);
+                if (contact == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Contact.Remove(contact);
+                await _context.SaveChangesAsync();
+                
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
             }
 
-            _context.Contact.Remove(contact);
-            await _context.SaveChangesAsync();
-
-            return Ok(contact);
+            
         }
 
-        private bool ContactExists(int id)
+        private bool ContactExists(Guid id)
         {
             return _context.Contact.Any(e => e.contactId == id);
         }

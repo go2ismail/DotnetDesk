@@ -73,6 +73,7 @@ namespace src.Controllers
                 if (!isEmailActivated)
                 {
                     ModelState.AddModelError("", "You need to confirm your email.");
+                    ViewData["error"] = "You need to register first or You need to confirm your email.";
                     return View(model);
                 }
 

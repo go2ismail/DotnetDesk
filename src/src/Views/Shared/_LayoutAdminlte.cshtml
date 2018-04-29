@@ -9,6 +9,15 @@
     var profilePicture = appUser != null ? appUser.ProfilePictureUrl : "#";
     var organization = Context.Organization.Where(x => x.organizationId.Equals(org)).FirstOrDefault();
     var organizationName = organization != null ? organization.organizationName : "Undefined";
+    var customerName = "";
+    Guid cust;
+    if (appUser.IsCustomer)
+    {
+        cust = (Guid)ViewData["cust"];
+        var customer = Context.Customer.Where(x => x.customerId.Equals(cust)).FirstOrDefault();
+        customerName = (customer != null) ? customer.customerName : "Undefined";
+
+    }
 
 }
 
@@ -87,7 +96,17 @@
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-building-o"></i>
-                                <span class="hidden-xs"><b>@organizationName</b></span>
+                                @if (appUser.IsCustomer)
+                                {
+
+                                    <span class="hidden-xs"><b>@customerName</b></span>
+                                }
+                                else
+                                {
+
+                                    <span class="hidden-xs"><b>@organizationName</b></span>
+                                }
+
                             </a>
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
@@ -148,7 +167,7 @@
                         {
                             <li class="header">CUSTOMER NAVIGATION</li>
                             <li class="@Html.IsSelected(controller: "Ticket")">
-                                <a href="@Url.Action("Index", "Ticket", new { org = org })">
+                                <a href="@Url.Action("Customer", "Ticket", new { cust = cust })">
                                     <i class="fa fa-th"></i> <span>Ticket</span>
                                 </a>
                             </li>

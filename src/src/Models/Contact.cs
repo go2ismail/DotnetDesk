@@ -13,14 +13,11 @@ namespace src.Models
             this.thumbUrl = "/images/no-image-available.png";
         }
 
-        public int contactId { get; set; }
+        public Guid contactId { get; set; }
         [Required]
         [StringLength(100)]
-        [Display(Name = "First Name")]
+        [Display(Name = "Full Name")]
         public string contactName { get; set; }
-        [StringLength(100)]
-        [Display(Name = "Last Name")]
-        public string lastName { get; set; }
         [StringLength(200)]
         [Display(Name = "Description")]
         public string description { get; set; }
@@ -29,6 +26,7 @@ namespace src.Models
         public string thumbUrl { get; set; }
 
         [StringLength(100)]
+        [Required]
         [Display(Name = "Email")]
         public string email { get; set; }
         [StringLength(100)]
@@ -44,7 +42,10 @@ namespace src.Models
         [StringLength(100)]
         public string linkedin { get; set; }
 
-        public int customerId { get; set; }
+        public string applicationUserId { get; set; }
+        public ApplicationUser applicationUser { get; set; }
+
+        public Guid customerId { get; set; }
         public Customer customer { get; set; }
         
 

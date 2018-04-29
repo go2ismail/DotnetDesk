@@ -199,24 +199,26 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.Contact", b =>
                 {
-                    b.Property<int>("contactId")
+                    b.Property<Guid>("contactId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
+
+                    b.Property<string>("CreateBy");
+
+                    b.Property<string>("applicationUserId");
 
                     b.Property<string>("contactName")
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("customerId");
+                    b.Property<Guid>("customerId");
 
                     b.Property<string>("description")
                         .HasMaxLength(200);
 
                     b.Property<string>("email")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("lastName")
+                        .IsRequired()
                         .HasMaxLength(100);
 
                     b.Property<string>("linkedin")
@@ -236,6 +238,8 @@ namespace src.Migrations
 
                     b.HasKey("contactId");
 
+                    b.HasIndex("applicationUserId");
+
                     b.HasIndex("customerId");
 
                     b.ToTable("Contact");
@@ -243,10 +247,12 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.Customer", b =>
                 {
-                    b.Property<int>("customerId")
+                    b.Property<Guid>("customerId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
+
+                    b.Property<string>("CreateBy");
 
                     b.Property<string>("address")
                         .HasMaxLength(100);
@@ -291,6 +297,8 @@ namespace src.Migrations
 
                     b.Property<DateTime>("CreateAt");
 
+                    b.Property<string>("CreateBy");
+
                     b.Property<string>("description")
                         .HasMaxLength(200);
 
@@ -310,10 +318,12 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.Product", b =>
                 {
-                    b.Property<int>("productId")
+                    b.Property<Guid>("productId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
+
+                    b.Property<string>("CreateBy");
 
                     b.Property<string>("description")
                         .HasMaxLength(200);
@@ -338,10 +348,12 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.SupportAgent", b =>
                 {
-                    b.Property<int>("supportAgentId")
+                    b.Property<Guid>("supportAgentId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
+
+                    b.Property<string>("CreateBy");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -366,7 +378,7 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.SupportEngineer", b =>
                 {
-                    b.Property<int>("supportEngineerId")
+                    b.Property<Guid>("supportEngineerId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
@@ -392,14 +404,16 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.Ticket", b =>
                 {
-                    b.Property<int>("ticketId")
+                    b.Property<Guid>("ticketId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateAt");
 
-                    b.Property<int>("contactId");
+                    b.Property<string>("CreateBy");
 
-                    b.Property<int>("customerId");
+                    b.Property<Guid>("contactId");
+
+                    b.Property<Guid>("customerId");
 
                     b.Property<string>("description")
                         .IsRequired()
@@ -413,11 +427,11 @@ namespace src.Migrations
                     b.Property<string>("phone")
                         .HasMaxLength(20);
 
-                    b.Property<int>("productId");
+                    b.Property<Guid>("productId");
 
-                    b.Property<int>("supportAgentId");
+                    b.Property<Guid>("supportAgentId");
 
-                    b.Property<int>("supportEngineerId");
+                    b.Property<Guid>("supportEngineerId");
 
                     b.Property<int>("ticketChannel");
 
@@ -485,6 +499,10 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Models.Contact", b =>
                 {
+                    b.HasOne("src.Models.ApplicationUser", "applicationUser")
+                        .WithMany()
+                        .HasForeignKey("applicationUserId");
+
                     b.HasOne("src.Models.Customer", "customer")
                         .WithMany("contacts")
                         .HasForeignKey("customerId")

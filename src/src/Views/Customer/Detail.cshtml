@@ -1,0 +1,92 @@
+﻿@model src.Models.Customer
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_LayoutAdminlte.cshtml";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+
+                    <h3 class="profile-username text-center"><span class="profile-fullName">@Model.customerName</span></h3>
+                    <p class="text-muted text-center">Active Customer</p>
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item text-center">
+
+
+                        </li>
+                        <li class="list-group-item">
+
+                        </li>
+
+                    </ul>
+                    <a href="@src.MVC.Pages.CustomerIndex.FullUrl?org=@Model.organizationId" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Back to Customers</b></a>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+
+                    <li class="active"><a href="#contact" data-toggle="tab">Customer Contacts</a></li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="active tab-pane" id="contact">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a class="btn btn-success" style="margin-bottom:10px" onclick="ShowPopup('@Url.Action("AddEdit","Contact", new { cust = Model.customerId })')"><i class="fa fa-plus"></i> Add New Contact</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="hidden" asp-for="@Model.customerId"/>
+                                <table id="grid" name="grid" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-10">Contact</th>
+                                            <th class="col-md-2"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- /.content -->
+<!--modal placeholder-->
+<div class="modal modal-primary fade" id="modalDefault">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="~/js/views/customer/detail.js"></script>
+
+}
+
+

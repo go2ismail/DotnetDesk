@@ -28,6 +28,13 @@ namespace src.Controllers.Api
             return Json(new { data = _context.Ticket.Where(x => x.organizationId.Equals(organizationId)).ToList() });
         }
 
+        // GET: api/Ticket/Customer
+        [HttpGet("Customer/{customerId}")]
+        public IActionResult GetTicketCustomer([FromRoute]Guid customerId)
+        {
+            return Json(new { data = _context.Ticket.Where(x => x.customerId.Equals(customerId)).ToList() });
+        }
+
         // POST: api/Ticket
         [HttpPost]
         public async Task<IActionResult> PostTicket([FromBody] Ticket ticket)
@@ -39,8 +46,9 @@ namespace src.Controllers.Api
 
             try
             {
-                if (ticket.ticketId == 0)
+                if (ticket.ticketId == Guid.Empty)
                 {
+                    ticket.ticketId = Guid.NewGuid();
                     _context.Ticket.Add(ticket);
 
                     await _context.SaveChangesAsync();
@@ -65,9 +73,47 @@ namespace src.Controllers.Api
            
         }
 
+        // POST: api/Ticket/Customer
+        [HttpPost("Customer")]
+        public async Task<IActionResult> PostTicketCustomer([FromBody] Ticket ticket)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                if (ticket.ticketId == Guid.Empty)
+                {
+                    ticket.ticketId = Guid.NewGuid();
+                    _context.Ticket.Add(ticket);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Add new data success." });
+                }
+                else
+                {
+                    _context.Update(ticket);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Edit data success." });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
+
+
+        }
+
         // DELETE: api/Ticket/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTicket([FromRoute] int id)
+        public async Task<IActionResult> DeleteTicket([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +142,38 @@ namespace src.Controllers.Api
           
         }
 
-        private bool TicketExists(int id)
+        // DELETE: api/Ticket/Customer/5
+        [HttpDelete("Customer/{id}")]
+        public async Task<IActionResult> DeleteTicketCustomer([FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var ticket = await _context.Ticket.SingleOrDefaultAsync(m => m.ticketId == id);
+                if (ticket == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Ticket.Remove(ticket);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Delete success." });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
+
+
+        }
+
+        private bool TicketExists(Guid id)
         {
             return _context.Ticket.Any(e => e.ticketId == id);
         }

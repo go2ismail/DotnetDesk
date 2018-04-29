@@ -13,7 +13,7 @@ namespace src.Models
             this.thumbUrl = "/images/no-image-available.png";
             this.productCategory = Enum.ProductCategory.Other;
         }
-        public int productId { get; set; }
+        public Guid productId { get; set; }
         [Display(Name = "Product Name")]
         [Required]
         [StringLength(100)]

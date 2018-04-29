@@ -50,7 +50,7 @@ namespace src.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (supportEngineer.supportEngineerId == 0)
+            if (supportEngineer.supportEngineerId == Guid.Empty)
             {
                 
                 try
@@ -72,6 +72,7 @@ namespace src.Controllers.Api
                         Organization org = _context.Organization.Where(x => x.organizationId.Equals(supportEngineer.organizationId)).FirstOrDefault();
                         supportEngineer.organization = org;
 
+                        supportEngineer.supportEngineerId = Guid.NewGuid();
                         _context.SupportEngineer.Add(supportEngineer);
 
                         await _context.SaveChangesAsync();
@@ -114,7 +115,7 @@ namespace src.Controllers.Api
 
         // DELETE: api/SupportEngineer/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSupportEngineer([FromRoute] int id)
+        public async Task<IActionResult> DeleteSupportEngineer([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -148,7 +149,7 @@ namespace src.Controllers.Api
            
         }
 
-        private bool SupportEngineerExists(int id)
+        private bool SupportEngineerExists(Guid id)
         {
             return _context.SupportEngineer.Any(e => e.supportEngineerId == id);
         }

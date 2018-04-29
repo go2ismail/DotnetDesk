@@ -8,7 +8,7 @@ namespace src.Models
 {
     public class SupportAgent : BaseEntity
     {
-        public int supportAgentId { get; set; }
+        public Guid supportAgentId { get; set; }
         [Required]
         [StringLength(100)]
         [Display(Name = "Full Name")]

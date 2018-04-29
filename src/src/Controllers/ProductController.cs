@@ -28,9 +28,9 @@ namespace src.Controllers
             return View(organization);
         }
 
-        public IActionResult AddEdit(Guid org, int id = 0)
+        public IActionResult AddEdit(Guid org, Guid id)
         {
-            if (id == 0)
+            if (id == Guid.Empty)
             {
                 Product product = new Product();
                 product.organizationId = org;
