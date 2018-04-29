@@ -4,11 +4,25 @@
     ViewData["Title"] = "UserProfile";
     Layout = "~/Views/Shared/_LayoutAdminlteNoMenu.cshtml";
     var customerId = Guid.Empty;
+    var organizationId = Guid.Empty;
+    Customer customer = null;
     if (Model.IsCustomer)
     {
         var contact = Context.Contact.Where(x => x.applicationUserId.Equals(Model.Id)).FirstOrDefault();
-        var customer = (contact != null) ? Context.Customer.Where(x => x.customerId.Equals(contact.customerId)).FirstOrDefault() : null;
+        customer = (contact != null) ? Context.Customer.Where(x => x.customerId.Equals(contact.customerId)).FirstOrDefault() : null;
         customerId = (customer != null) ? customer.customerId : Guid.Empty;
+
+    }
+    if (Model.IsSupportAgent || Model.IsSupportEngineer)
+    {
+        SupportAgent supportAgent = null;
+        supportAgent = Context.SupportAgent.Where(x => x.applicationUserId.Equals(Model.Id)).FirstOrDefault();
+        if (Model.IsSupportAgent) { organizationId = (supportAgent != null) ? supportAgent.organizationId : Guid.Empty; }
+
+        SupportEngineer supportEngineer = null;
+        supportEngineer = Context.SupportEngineer.Where(x => x.applicationUserId.Equals(Model.Id)).FirstOrDefault();
+        if (Model.IsSupportEngineer) { organizationId = (supportEngineer != null) ? supportEngineer.organizationId : Guid.Empty; }
+
     }
 }
 
@@ -40,15 +54,19 @@
                         </li>
 
                     </ul>
-                    @if (Model.IsSuperAdmin)
+                    @if (Model.IsCustomer)
                     {
-                        <a href="@src.MVC.Pages.ConfigOrganization.FullUrl" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Organizations</b></a>
-
-                    }
-                    else if (Model.IsCustomer)
-                    {
-
                         <a href="@src.MVC.Pages.TicketCustomer.FullUrl?cust=@customerId" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Tickets</b></a>
+                    }
+                    else if (Model.IsSupportAgent || Model.IsSupportEngineer)
+                    {
+
+                        <a href="@src.MVC.Pages.TicketIndex.FullUrl?org=@organizationId" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Tickets</b></a>
+                    }
+                    else
+                    {
+
+                        <a href="@src.MVC.Pages.ConfigOrganization.FullUrl" class="btn btn-primary btn-block"><b><i class="fa fa-building"></i> Organizations</b></a>
                     }
 
                 </div>

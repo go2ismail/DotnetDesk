@@ -13,7 +13,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="../@appUser.ProfilePictureUrl" class="profile-picture user-image" alt="User Image">
             <span class="profile-fullName hidden-xs">@appUser.FullName</span>
-            
+
         </a>
         <ul class="dropdown-menu">
             <!-- User image -->
@@ -21,10 +21,30 @@
                 <img src="../@appUser.ProfilePictureUrl" class="profile-picture img-circle" alt="User Image">
                 <p>
                     <span class="profile-fullName">@appUser.FullName</span>
-                    <small>Active member.</small>
+                    @if (appUser.IsSuperAdmin)
+                    {
+                        <small>Super Admin.</small>
+
+                    }
+                    else if (appUser.IsCustomer)
+                    {
+                        <small>Customer Contact.</small>
+
+                    }
+                    else if (appUser.IsSupportAgent)
+                    {
+
+                        <small>Support Agent.</small>
+                    }
+                    else
+                    {
+                        <small>Support Engineer.</small>
+
+                    }
+
                 </p>
             </li>
-            
+
             <!-- Menu Footer-->
             <li class="user-footer">
                 <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
@@ -35,7 +55,7 @@
                         <button type="submit" class="btn btn-default btn-flat">Log out</button>
                     </div>
                 </form>
-                
+
             </li>
 
         </ul>

@@ -34,9 +34,14 @@
                         <a href="@Url.Action("Index", "Customer", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
                         <a href="@Url.Action("Organization", "Config")" class="small-box-footer">Configure <i class="fa fa-gear"></i></a>
                     }
-                    else
+                    else if (appUser.IsCustomer)
                     {
                         <a href="@Url.Action("Customer", "Ticket", new { cust = cust })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
+
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Ticket", new { org = item.organizationId })" class="small-box-footer"><h3>Enter <i class="fa fa-arrow-circle-right"></i></h3></a>
 
                     }
 

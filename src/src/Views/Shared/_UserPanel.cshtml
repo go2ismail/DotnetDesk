@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using src.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ApplicationUser appUser = await UserManager.GetUserAsync(User);
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src="../@appUser.ProfilePictureUrl" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>@appUser.FullName</p>
+            <a href="#">
+                <i class="fa fa-circle text-success"></i>
+                @if (appUser.IsSuperAdmin)
+                {
+                    <span>Online as Super Admin</span>
+
+                }
+                else if (appUser.IsCustomer)
+                {
+                    <span>Online as Customer Contact</span>
+
+                }
+                else if (appUser.IsSupportAgent)
+                {
+                    <span>Online as Support Agent</span>
+
+                }
+                else if (appUser.IsSupportEngineer)
+                {
+                    <span>Online as Support Engineer</span>
+
+                }
+            </a>
+        </div>
+    </div>
+
+}
