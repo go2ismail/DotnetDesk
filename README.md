@@ -59,6 +59,15 @@ config
 -	ticket priority [high, medium, low]
 -	ticket channel [phone, twitter, email, facebook, web, chat, forum]
 -	product category [monitor, phone, desktop, laptop, printer, other hardware, windows, word, excel, powerpoint, other software]
+
+# Screenshots
+
+![demo1](src/src/wwwroot/images/dotnetdesk1.png)
+![demo2](src/src/wwwroot/images/dotnetdesk2.png)
+![demo3](src/src/wwwroot/images/dotnetdesk3.png)
+![demo4](src/src/wwwroot/images/dotnetdesk4.png)
+![demo5](src/src/wwwroot/images/dotnetdesk5.png)
+![demo6](src/src/wwwroot/images/dotnetdesk6.png)
 	
 	
 	
