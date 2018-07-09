@@ -68,6 +68,9 @@ config
 ![demo4](src/src/wwwroot/images/dotnetdesk4.png)
 ![demo5](src/src/wwwroot/images/dotnetdesk5.png)
 ![demo6](src/src/wwwroot/images/dotnetdesk6.png)
+
+# Supported by CodeRush.Co
+[CodeRush.CO] source code collections (https://coderush.co)
 	
 	
 	
