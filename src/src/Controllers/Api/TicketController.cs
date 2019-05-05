@@ -177,6 +177,46 @@ namespace src.Controllers.Api
 
         }
 
+        [HttpPost("PostTicketComment")]
+        public async Task<IActionResult> PostTicketComment([FromBody] TicketThread ticketThread)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if(ticketThread.ticketId == Guid.Empty)
+                {
+                    return NotFound();
+                }
+
+                if(ticketThread.ticketThreadId == Guid.Empty)
+                {
+                    ticketThread.ticketThreadId = new Guid();
+                    _context.TicketThread.Add(ticketThread);
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Add new data success." });
+                }
+
+                else
+                {
+                    return Json(new { success = false, message = "Comment already exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet("ShowTicketComments/{ticketId}")]
+        public IActionResult ShowTicketComments([FromRoute]Guid ticketId)
+        {
+            return Json(new { data = _context.TicketThread.Where(x => x.ticketId.Equals(ticketId)).ToList() });
+        }
+
         private bool TicketExists(Guid id)
         {
             return _context.Ticket.Any(e => e.ticketId == id);

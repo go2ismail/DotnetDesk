@@ -70,6 +70,31 @@ namespace src.Services
             
         }
 
+        // for local dev purpose
+        // going to set email to deliver locally
+        public async Task SendEmailLocallyAsync(bool isBodyHtml
+            , string subject
+            , string body
+            , string toEmail
+            , string fromEmail
+            , string localDestination)
+        {
+            using (var smtp = new SmtpClient()){
+                smtp.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                smtp.PickupDirectoryLocation = localDestination;
+
+                var message = new MailMessage{
+                    Body = body,
+                    IsBodyHtml = isBodyHtml,
+                    Subject = subject,
+                    From = new MailAddress(fromEmail)
+                };
+
+                message.To.Add(toEmail);
+                await smtp.SendMailAsync(message);
+            }
+        }
+
         public async Task<bool> IsAccountActivatedAsync(string email, UserManager<ApplicationUser> userManager)
         {
             bool result = false;

@@ -49,6 +49,7 @@ namespace src.Controllers
             if (id == Guid.Empty)
             {
                 Ticket ticket = new Ticket();
+                ticket.CreateBy = _userManager.GetUserName(User);
                 ticket.organizationId = org;
 
                 IList<Product> products = _context.Product.Where(x => x.organizationId.Equals(org)).ToList();
@@ -115,6 +116,47 @@ namespace src.Controllers
                 return View(ticket);
             }
 
+        }
+
+        public IActionResult Detail(Guid ticketId)
+        {
+            if(ticketId == Guid.Empty)
+            {
+                return NotFound();
+            }
+            Ticket ticket = _context.Ticket.Where(x => x.ticketId.Equals(ticketId)).FirstOrDefault();
+            Product product = _context.Product.Where(x => x.productId.Equals(ticket.productId)).FirstOrDefault();
+            SupportAgent agent = _context.SupportAgent.Where(x => x.supportAgentId.Equals(ticket.supportAgentId)).FirstOrDefault();
+            SupportEngineer engineer = _context.SupportEngineer.Where(x => x.supportEngineerId.Equals(ticket.supportEngineerId)).FirstOrDefault();
+            Contact contact = _context.Contact.Where(x => x.contactId.Equals(ticket.contactId)).FirstOrDefault();
+            ViewData["ticket"] = ticket.ticketId;
+            ViewBag.productName = product.productName;
+            ViewBag.supportAgentName = agent.supportAgentName;
+            ViewBag.supportEngineerName = engineer.supportEngineerName;
+            ViewBag.contactName = contact.contactName;
+            return View(ticket);
+        }
+
+        public IActionResult AddComment(Guid ticketId)
+        {
+            if(ticketId  == Guid.Empty)
+            {
+                return NotFound();
+            }
+            TicketThread ticketThread = new TicketThread();
+            ticketThread.ticketId = ticketId;
+            ticketThread.CreateBy = _userManager.GetUserName(User);
+            return View(ticketThread);
+        }
+
+        public IActionResult ShowComments(Guid ticketId)
+        {
+            if(ticketId == Guid.Empty)
+            {
+                return NotFound();
+            }
+            TicketThread ticketThread = _context.TicketThread.Where(x => x.ticketId.Equals(ticketId)).FirstOrDefault();
+            return View(ticketThread);
         }
     }
 }

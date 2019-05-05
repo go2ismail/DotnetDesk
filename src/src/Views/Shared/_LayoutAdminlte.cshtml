@@ -128,65 +128,65 @@
 
                 @if (appUser != null)
                 {
-                    <ul class="sidebar-menu" data-widget="tree">
-                        @if (appUser.IsSuperAdmin)
-                        {
-                            <li class="header">MAIN NAVIGATION</li>
-                            <li class="@Html.IsSelected(controller: "Customer")">
-                                <a href="@Url.Action("Index", "Customer", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Customers</span>
-                                </a>
-                            </li>
-                            <li class="@Html.IsSelected(controller: "Product")">
-                                <a href="@Url.Action("Index", "Product", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Products</span>
-                                </a>
-                            </li>
-                            <li class="@Html.IsSelected(controller: "SupportAgent")">
-                                <a href="@Url.Action("Index", "SupportAgent", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Support Agents</span>
-                                </a>
-                            </li>
-                            <li class="@Html.IsSelected(controller: "SupportEngineer")">
-                                <a href="@Url.Action("Index", "SupportEngineer", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Support Engineers</span>
-                                </a>
-                            </li>
-                            <li class="@Html.IsSelected(controller: "Ticket")">
-                                <a href="@Url.Action("Index", "Ticket", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Ticket</span>
-                                </a>
-                            </li>
-                        }
-                        @if (appUser.IsCustomer)
-                        {
-                            <li class="header">CUSTOMER NAVIGATION</li>
-                            <li class="@Html.IsSelected(controller: "Ticket")">
-                                <a href="@Url.Action("Customer", "Ticket", new { cust = cust })">
-                                    <i class="fa fa-th"></i> <span>Ticket</span>
-                                </a>
-                            </li>
-                        }
-                        @if (appUser.IsSupportAgent)
-                        {
-                            <li class="header">SUPPORT AGENT NAVIGATION</li>
-                            <li class="@Html.IsSelected(controller: "Ticket")">
-                                <a href="@Url.Action("Index", "Ticket", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Ticket</span>
-                                </a>
-                            </li>
-                        }
-                        @if (appUser.IsSupportEngineer)
-                        {
-                            <li class="header">SUPPORT ENGINEER NAVIGATION</li>
-                            <li class="@Html.IsSelected(controller: "Ticket")">
-                                <a href="@Url.Action("Index", "Ticket", new { org = org })">
-                                    <i class="fa fa-th"></i> <span>Ticket</span>
-                                </a>
-                            </li>
-                        }
+                <ul class="sidebar-menu" data-widget="tree">
+                    @if (appUser.IsSuperAdmin)
+                    {
+                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="@Html.IsSelected(controller: "Customer")">
+                            <a href="@Url.Action("Index", "Customer", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Customers</span>
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(controller: "Product")">
+                            <a href="@Url.Action("Index", "Product", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Products</span>
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(controller: "SupportAgent")">
+                            <a href="@Url.Action("Index", "SupportAgent", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Support Agents</span>
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(controller: "SupportEngineer")">
+                            <a href="@Url.Action("Index", "SupportEngineer", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Support Engineers</span>
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(controller: "Ticket")">
+                            <a href="@Url.Action("Index", "Ticket", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Ticket</span>
+                            </a>
+                        </li>
+                    }
+                    @if (appUser.IsCustomer)
+                    {
+                        <li class="header">CUSTOMER NAVIGATION</li>
+                        <li class="@Html.IsSelected(controller: "Ticket")">
+                            <a href="@Url.Action("Customer", "Ticket", new { cust = cust })">
+                                <i class="fa fa-th"></i> <span>Ticket</span>
+                            </a>
+                        </li>
+                    }
+                    @if (appUser.IsSupportAgent)
+                    {
+                        <li class="header">SUPPORT AGENT NAVIGATION</li>
+                        <li class="@Html.IsSelected(controller: "Ticket")">
+                            <a href="@Url.Action("Index", "Ticket", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Ticket</span>
+                            </a>
+                        </li>
+                    }
+                    @if (appUser.IsSupportEngineer)
+                    {
+                        <li class="header">SUPPORT ENGINEER NAVIGATION</li>
+                        <li class="@Html.IsSelected(controller: "Ticket")">
+                            <a href="@Url.Action("Index", "Ticket", new { org = org })">
+                                <i class="fa fa-th"></i> <span>Ticket</span>
+                            </a>
+                        </li>
+                    }
 
-                    </ul>
+                </ul>
                 }
 
 
