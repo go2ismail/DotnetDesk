@@ -12,9 +12,10 @@ using System;
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190504103322_20190405113150_additionOfTicketThread")]
+    partial class _20190405113150_additionOfTicketThread
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,10 +461,6 @@ namespace src.Migrations
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(250);
-
-                    b.Property<DateTime>("CreateAt");
-
-                    b.Property<string>("CreateBy");
 
                     b.Property<Guid>("ticketId");
 

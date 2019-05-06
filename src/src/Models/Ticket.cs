@@ -60,5 +60,7 @@ namespace src.Models
         public Guid organizationId { get; set; }
         public Organization organization { get; set; }
 
+        public ICollection<TicketThread> ticketThreads { get; set; }
+
     }
 }

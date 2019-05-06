@@ -78,6 +78,9 @@ namespace src
             // Get SMTP configuration options
             services.Configure<SmtpOptions>(Configuration.GetSection("SmtpOptions"));
 
+            // Get SMTPLocal configuration options
+            services.Configure<SmtpLocalOptions>(Configuration.GetSection("SmtpLocal"));
+
             services.AddMvc();
         }
 

@@ -28,6 +28,14 @@ namespace src.Services
             int smtpPort,
             bool smtpSSL);
 
+
+        Task SendEmailLocallyAsync( bool isBodyHtml
+            , string subject
+            , string body
+            , string toEmail
+            , string fromEmail
+            , string localDestination);
+
         Task CreateDefaultOrganization(string applicationUserId,
             ApplicationDbContext context);
 

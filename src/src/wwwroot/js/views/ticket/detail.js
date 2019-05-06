@@ -3,24 +3,17 @@ var entity = 'Ticket';
 var apiurl = '/api/' + entity;
 
 $(document).ready(function () {
-    var organizationId = $('#organizationId').val();
+    var ticketId = $('#ticketId').val();
     dataTable = $('#grid').DataTable({
         "ajax": {
-            "url": apiurl + '/' + organizationId,
+            "url": apiurl + '/ShowTicketComments/' + ticketId,
             "type": 'GET',
             "datatype": 'json'
         },
         "columns": [
-            { "data": "ticketName" },
-            {
-                "data": "ticketId",
-                "render": function (data) {
-                    var btnDetail = "<a href='/Ticket/detail?ticketId=" + data + "' class='btn btn-default btn-xs'><i class='fa fa-list'></i></a>";
-                    var btnEdit = "<a class='btn btn-default btn-xs' onclick=ShowPopup('/" + entity + "/AddEdit/" + data + "')><i class='fa fa-pencil'></i></a>";
-                    var btnDelete = "<a class='btn btn-danger btn-xs' style='margin-left:5px' onclick=Delete('" + data + "')><i class='fa fa-trash'></i></a>";
-                    return btnDetail + btnEdit + btnDelete;
-                }
-            }
+            { "data": "comment"},
+            { "data": "createBy" },
+            { "data": "createAt" }
         ],
         "language": {
             "emptyTable": "no data found."
@@ -43,14 +36,14 @@ function ShowPopup(url) {
 }
 
 
-function SubmitAddEdit(form) {
+function SubmitAddComment(form) {
     $.validator.unobtrusive.parse(form);
     if ($(form).valid()) {
         var data = $(form).serializeJSON();
         data = JSON.stringify(data);
         $.ajax({
             type: 'POST',
-            url: apiurl,
+            url: apiurl + '/PostTicketComment',
             data: data,
             contentType: 'application/json',
             success: function (data) {
@@ -71,7 +64,7 @@ function SubmitAddEdit(form) {
 function Delete(id) {
     swal({
         title: "Are you sure want to Delete?",
-        text: "You will not be able to restore the file!",
+        text: "You will not be able to restore the data!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#dd4b39",
@@ -94,7 +87,6 @@ function Delete(id) {
 
 
 }
-
 
 
 

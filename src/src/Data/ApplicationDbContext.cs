@@ -37,6 +37,8 @@ namespace src.Data
 
         public DbSet<src.Models.Ticket> Ticket { get; set; }
 
+        public DbSet<src.Models.TicketThread> TicketThread { get; set; }
+
         public DbSet<src.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
